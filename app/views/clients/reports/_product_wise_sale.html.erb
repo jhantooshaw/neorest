@@ -1,0 +1,56 @@
+<% unless @bills.blank? %>
+  <div class="table-responsive" data-pattern="priority-columns">
+    <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Items</th>
+          <th data-priority="1">Rate</th>
+          <th data-priority="1">Qty</th>
+          <th data-priority="1">Comp. Qty</th>
+          <th data-priority="1">Total Qty</th>
+          <th data-priority="1">Amount</th>
+          <th data-priority="1">Discount</th>
+          <th data-priority="1">Net Amount</th>
+          <th data-priority="1">Tax</th>
+          <th data-priority="1">Amt with Tax</th>
+          <th data-priority="1">Cost</th>
+          <th data-priority="1">Item Group</th>
+          <th data-priority="1">Item Sub Group</th>
+          <th data-priority="1">Code No</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%@bills.each do |bill_item|%>
+          <tr>
+            <td><%= bill_item.item.description %></td>
+            <td><%= bill_item.rate %></td>
+            <% a = get_item_sale(bill_item.item_id, bill_item.rate) %>
+            <td><%= a[0] %></td>
+            <% b = get_item_comp_qty(bill_item.item_id, 'comp_bill_detail_backups') %>
+            <td><%= b %></td>
+            <td><%= a[0] + b %></td>
+            <td><%= a[1] %></td>
+            <td><%= a[2] %></td>            
+            <td><%= a[3] %></td>
+            <td><%= number_with_precision(a[4] + a[5] + a[6], precision: 2) %></td>
+            <td><%= number_with_precision(a[3] + a[4] + a[5] + a[6], precision: 2) %></td>
+            <% c = get_item_cost_from_menu(bill_item.item_id, bill_item.bill_master_backup.outlet_id) %>
+            <td><%= c*a[0] %></td>
+            <td><%= bill_item.item.item_group.ig_name if bill_item.item.item_group%></td>
+            <td><%= bill_item.item.item_sub_group.isg_name if bill_item.item.item_sub_group%></td>
+            <td><%= bill_item.item.code_no %></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+<%else%>
+  <br/><br/>
+  No Bills Made!!!
+<%end%>
+
+<script type="text/javascript">
+  $(function() {
+    $('.table-responsive').responsiveTable();
+  });
+</script>

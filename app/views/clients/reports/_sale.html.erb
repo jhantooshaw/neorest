@@ -1,0 +1,120 @@
+<% unless @bills.blank? %>
+  <div class="table-responsive" data-pattern="priority-columns">
+    <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Bill Date</th>
+          <th data-priority="1">Gross Amount</th>
+          <th data-priority="1">Discount</th>
+          <th data-priority="1">Net Amount</th>
+          <th data-priority="1">Vatable</th>
+          <th data-priority="1">Non Taxable</th>
+          <th data-priority="1">Excisable</th>
+          <th data-priority="1">Service Taxable</th>
+          <th data-priority="1">Total tax</th>
+          <th data-priority="1">Round Off</th>
+          <th data-priority="1">Bill Amount</th> 
+          <th data-priority="1">Taxable Amount<br/><%= "#{@tax.tax1_name}@#{@tax.tax1_per}"%></th>
+          <th data-priority="1"><%= "#{@tax.tax1_name}@#{@tax.tax1_per}"%></th>
+          <th data-priority="1">Taxable Amount<br/><%= "#{@tax.tax2_name}@#{@tax.tax2_per}"%><%= '(incl.)' if @tax.rate_incd_of_stax == 'Yes'  %></th>
+          <th data-priority="1"><%= "#{@tax.tax2_name}@#{@tax.tax2_per}"%></th>
+          <th data-priority="1">Taxable Amount<br/><%= "#{@tax.tax3_name}@#{@tax.tax3_per}"%></th>
+          <th data-priority="1"><%= "#{@tax.tax3_name}@#{@tax.tax3_per}"%></th>
+          <th data-priority="1">Taxable Amount<br/><%= "#{@tax.tax4_name}@#{@tax.tax4_per}"%></th>
+          <th data-priority="1"><%= "#{@tax.tax4_name}@#{@tax.tax4_per}"%></th>
+          <th data-priority="1">Taxable Amount<br/><%= "#{@tax.tax5_name}@#{@tax.tax5_per}"%></th>
+          <th data-priority="1"><%= "#{@tax.tax5_name}@#{@tax.tax5_per}"%></th>
+          <th data-priority="1">S.T. On <%= @tax.tax4_name%><br/>@<%= @tax.st_per_on_tax4%></th>
+          <th data-priority="1">Service Tax @<%= @tax.st_per_on_tax4%></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% tax1 = tax2 = tax3 = tax4 = tax5 = stax = temp_tax = 0.0  %>
+        <%@bills.each do |bill|%>
+          <tr>
+            <td><%= date_format(bill.bill_date) %></td>
+            <td><%= change_decimal(bill.tot_sub_total_amount) %></td>
+            <td><%= change_decimal(bill.tot_discount) %></td>
+            <td><%= change_decimal(bill.tot_net_amount) %></td>
+            <td><%= change_decimal(bill.tot_taxable_amount) %></td>
+            <td><%= change_decimal(bill.tot_non_taxable_amount) %></td>
+            <td><%= change_decimal(bill.tot_exciseable_amount) %></td>
+            <td>getServTaxableAmt</td>
+            <td><%= change_decimal(bill.tot_s_tax) %></td>
+            <td><%= change_decimal(bill.tot_round_off) %></td>
+            <td><%= change_decimal(bill.tot_total_amount) %></td>
+            
+            <% temp_tax = get_tot_taxable_amt('tax1_amount', 'taxable_amount', bill.bill_date, 'bill_master_backups')  %>
+            <% tax1 = tax1 + temp_tax.to_f %>
+            <td><%= temp_tax %></td>
+            <td><%= change_decimal(bill.tot_tax1_amount) %></td>
+            
+            <% temp_tax = get_tot_taxable_amt('tax2_amount', 'exciseable_amount', bill.bill_date, 'bill_master_backups')  %>
+            <% tax2 = tax2 + temp_tax.to_f %>
+            <td><%= temp_tax %></td>
+            <td><%= change_decimal(bill.tot_tax2_amount) %></td>
+            
+            <% temp_tax = get_tot_taxable_amt('tax3_amount', 'net_amount', bill.bill_date, 'bill_master_backups') %>
+            <% tax3 = tax3 + temp_tax.to_f %>
+            <td><%= temp_tax %></td>            
+            <td><%= change_decimal(bill.tot_tax3_amount) %></td>
+            
+            <% temp_tax = get_tot_taxable_amt('tax4_amount', 'net_amount', bill.bill_date, 'bill_master_backups') %>
+            <% tax4 = tax4 + temp_tax.to_f %>
+            <td><%= temp_tax %></td>            
+            <td><%= change_decimal(bill.tot_tax4_amount) %></td>
+            
+            <% temp_tax = get_tot_taxable_amt('tax5_amount', 'net_amount', bill.bill_date, 'bill_master_backups') %>
+            <% tax5 = tax5 + temp_tax.to_f %>
+            <td><%= temp_tax %></td>            
+            <td><%= change_decimal(bill.tot_tax5_amount) %></td>
+            
+            <% temp_tax = get_tot_taxable_amt('stontax4_amount', 'tax4_amount', bill.bill_date, 'bill_master_backups') %>
+            <% stax = stax + temp_tax.to_f %>
+            <td><%= temp_tax %></td>               
+            <td><%= change_decimal(bill.tot_stontax4_amount) %></td>
+          </tr>
+        <%end%>
+        <tr>
+          <td>Total</td>
+          <td><%= change_decimal(@tot_bills.tot_sub_total_amount) %></td>
+          <td><%= change_decimal(@tot_bills.tot_discount) %></td>
+          <td><%= change_decimal(@tot_bills.tot_net_amount) %></td>
+          <td><%= change_decimal(@tot_bills.tot_taxable_amount) %></td>
+          <td><%= change_decimal(@tot_bills.tot_non_taxable_amount) %></td>
+          <td><%= change_decimal(@tot_bills.tot_exciseable_amount) %></td>
+          <td>getTotalServTaxableAmt</td>
+          <td><%= change_decimal(@tot_bills.tot_s_tax) %></td>
+          <td><%= change_decimal(@tot_bills.tot_round_off) %></td>
+          <td><%= change_decimal(@tot_bills.tot_total_amount) %></td>
+          <td><%= change_decimal(tax1) %></td>
+          <td><%= change_decimal(@tot_bills.tot_tax1_amount) %></td>
+
+          <td><%= change_decimal(tax2) %></td>
+          <td><%= change_decimal(@tot_bills.tot_tax2_amount) %></td>
+
+          <td><%= change_decimal(tax3) %></td>
+          <td><%= change_decimal(@tot_bills.tot_tax3_amount) %></td>
+
+          <td><%= change_decimal(tax4) %></td>
+          <td><%= change_decimal(@tot_bills.tot_tax4_amount) %></td>
+
+          <td><%= change_decimal(tax5) %></td>
+          <td><%= change_decimal(@tot_bills.tot_tax5_amount) %></td>
+
+          <td><%= change_decimal(stax) %></td>
+          <td><%= change_decimal(@tot_bills.tot_stontax4_amount) %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<%else%>
+  <br/><br/>
+  No Bills Made!!!
+<%end%>
+
+<script type="text/javascript">
+  $(function() {
+    $('.table-responsive').responsiveTable();
+  });
+</script>

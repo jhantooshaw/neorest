@@ -1,0 +1,39 @@
+<button class="btn btn-primary btn-lg import_dialog fade" data-toggle="modal" data-target="#import_dialog"></button>
+<div class="modal fade" id="import_dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" style="display:none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <% if @locations.blank? || @f_years.blank? %>
+          <%= link_to "Logout", destroy_client_session_path, :method => :delete, class: "close", style: "font-size:14px;opacity:0.4;" %>
+          <%else%>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <%end%>
+          <h5 class="modal-title" id="myModalLabel">Import locations and financial years </h5>
+        </div>
+        <%= form_tag clients_loc_fin_year_path, multipart: true, class: "form-horizontal", id: "formImportID" do %>
+            <%if @error.present? %><div class="alert-danger"><%= @error %></div><%end%>
+            <div class="modal-body">
+              <div class="form-group">                  
+                <div class="col-sm-9">
+                  <input type="file" name="location" class="filestyle validate[custom[checkExcelFile]]" data-icon="false" data-size="sm" data-buttonText="Attach Location File" data-buttonBefore="true">
+                </div>
+              </div>
+              <div class="form-group">                  
+                <div class="col-sm-9">
+                  <input type="file" name="financial_year" class="filestyle validate[custom[checkExcelFile]]" data-icon="false" data-size="sm" data-buttonText="Attach Financial File" data-buttonBefore="true">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer" style="margin-top:-10px;text-align: left;">
+              <!--  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+              <button type="submit" class="btn btn-primary">Import</button>
+            </div>
+          <%end%>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+    <% if @locations.blank? || @f_years.blank? || @error.present? %>
+        open_dialog(true, 'import_dialog');
+    <%end%>
+    </script>

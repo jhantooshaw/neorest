@@ -1,0 +1,118 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+	margin: 0;
+	padding: 0;
+	line-height: 1.5em;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #333;
+/*	background:url(/assets/con-bg.jpg) no-repeat fixed;*/
+}
+
+.con_container{
+	width: 960px;
+	margin: 0 auto;
+	background:#FFF;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both;
+}
+.content-body {
+	width:100%;
+}
+.content-body-inner {
+	padding:2%;
+}
+.content-body-left {
+	width:65%;
+	float:left;
+}
+.content-body-left img {
+	position:relative;
+	top:5px;
+	margin-right:5px;
+}
+.content-body-left .cont-in {
+	width:78%;
+}
+.content-body-left .ptxt {
+	font:normal 14px/18px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	text-align:justify;
+	margin:0 10px 15px;
+}
+.content-body-left a {
+	color:#7b5613;
+	text-decoration:none;
+	margin-left:10px;
+}
+.content-body-left a:hover {
+	color:#7b5613;
+	text-decoration:none;
+}
+.content-body-right {
+	width:35%;
+	float:left;
+}
+.content-body-right img {
+	position:relative;
+	top:8px;
+	margin-right:5px;
+}
+.content-body-right a {
+	color:#7b5613;
+	text-decoration:none;
+	margin-left:10px;
+}
+.content-body-right a:hover {
+	color:#7b5613;
+	text-decoration:none;
+}
+
+/*=============================================Error Page===================================================*/
+
+.error_div {
+        background: none repeat scroll 0 0 #999999;
+	margin:20px;
+	padding:20px;
+	
+}
+.error_txt {
+	text-align:center;
+	color:#FF0000;
+	font:normal 30px/38px "Lucida Console", Monaco, monospace;
+}
+
+.txt {
+	margin:8px 0;
+	text-align:center;
+	font:normal 22px/30px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color:#FFF;
+}
+.back_home {
+	text-align:center;
+	color:#CCCCCC;
+	font:normal 16px/22px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	padding:10px 0;
+}
+.back_home a {
+	color:#CCC;
+	text-decoration:none;
+}
+.back_home a:hover {
+	color:#FFF;
+	text-decoration:none;
+}
+.txt {
+	margin:8px 0;
+	text-align:center;
+	font:normal 22px/30px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	color:#FFF;
+}

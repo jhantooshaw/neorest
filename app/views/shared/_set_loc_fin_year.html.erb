@@ -1,0 +1,32 @@
+
+<button class="btn btn-primary btn-lg set_dialog fade" data-toggle="modal" data-target="#set_dialog"></button>
+<div class="modal fade" id="set_dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+        <h5 class="modal-title" id="myModalLabel">Set Current Financial Year & Location</h5>
+      </div>
+      <%= form_tag clients_set_loc_fin_year_path, class: "form-horizontal", id: "formSetID" do %>
+          <%if @error.present? %><div class="alert-danger"><%= @error %></div><%end%>
+          <div class="modal-body">
+            <div class="form-group">  
+              <label for="financialyear" class="col-sm-4 control-label" style="font-weight:normal;">Select Financial Year</label>
+              <div class="col-sm-5">
+                <%= select_tag "financial_year_id", options_from_collection_for_select(@f_years, "id", "name"), :class => "form-control validate[required]", prompt: "Select financial year"%>
+              </div>
+            </div>
+            <div class="form-group" id="location_select"></div>
+          </div>
+          <div class="modal-footer" style="margin-top:-10px;text-align:left;" id="set_financial_year">
+            <button type="submit" class="btn btn-primary">&nbsp;Set Financial Year&nbsp;</button>
+          </div>
+        <%end%>
+      </div>
+    </div>
+  </div>
+  <% if @fin_locs.present? && session[:financial_year_id].blank? && session[:location_id].blank? %>
+    <script type="text/javascript">
+      open_dialog(true, 'set_dialog');
+    </script>
+  <%end%>

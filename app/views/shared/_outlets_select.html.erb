@@ -1,0 +1,7 @@
+<div class="col-sm-2">
+  <% if @outlets.present? && @outlets.first.setting.multiple_outlet == 'Y' %>
+    <%= select_tag "outlet_id", options_from_collection_for_select(@outlets, "id", "name"), :class => "form-control validate[required]", prompt: "Select outlet" %>
+  <%else%>
+    <%= select_tag "outlet_id", options_from_collection_for_select(@outlets, "id", "name"), :class => "form-control", prompt: "Select outlet" %>
+  <%end%>
+</div>

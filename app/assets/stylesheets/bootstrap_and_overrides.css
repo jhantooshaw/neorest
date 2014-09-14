@@ -1,0 +1,64 @@
+/*
+  Use Font Awesome icons (default)
+  To use Glyphicons sprites instead of Font Awesome, replace with "require twitter-bootstrap-static/sprites"
+  =require twitter-bootstrap-static/fontawesome
+*/
+
+
+.alert {
+    border: 1px solid transparent;
+    border-radius: 4px 4px 4px 4px;
+    margin-bottom: 10px;
+    padding: 5px 15px;;
+}
+.table-striped tbody > tr:nth-child(2n+1) > td, .table-striped tbody > tr:nth-child(2n+1) > th {
+    background-color: #CDB27B;
+    color:#fff;
+}
+
+legend {
+    /*color: #E0E0BA;*/
+    /* margin: 0 25px;*/
+    width: 100%;
+}
+
+.table th {
+    color:#000;
+    font-size: 14px;
+}
+
+label {
+    cursor: auto;
+}
+
+.dropdown-menu > li > a {
+    clear: both;
+    color: #333333;
+    display: block;
+    font-weight: normal;
+    line-height: 20px;
+    padding: 3px 12px;
+    white-space: nowrap;
+}
+
+.nav-list > .active > a, .nav-list > .active > a:hover, .nav-list > .active > a:focus {
+    background-color: #181818;
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+.dminfoinput{
+    width:50%;
+}
+
+.show_hide {
+    display:none;
+}
+
+h4{
+    /* padding-top: 10px;*/
+}
+
+.progress-striped .progress-bar, .progress-bar-striped {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-size: 40px 40px;
+}

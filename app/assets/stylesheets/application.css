@@ -1,0 +1,73 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ * require_tree .
+ *= require bootstrap
+ *= require clients/signin
+ *= require clients/clients
+ *= require validationEngine.jquery
+ *= require datepicker
+ *= require_tree ./fonts
+ *= require rwd-table.min
+ *= require docs.min
+ *= require_self
+ */
+
+body {
+    min-height: 700px;
+    /*  padding-top: 70px;
+      background-color:#EEEEEE;*/
+}
+
+.field_with_errors {
+    padding: 2px;
+    background-color: red;
+    display: table;
+}
+
+#loading-indicator {
+    position: absolute;
+
+}
+
+.progress-striped .progress-bar, .progress-bar-striped {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-size: 40px 40px;
+}
+
+.progress.active .progress-bar, .progress-bar.active {
+    animation: 2s linear 0s normal none infinite progress-bar-stripes;
+}
+
+.alert-notice {
+    background-color: #DFF0D8;
+    border-color: #D6E9C6;
+    color: #3C763D;
+}
+.alert-notice hr {
+    border-top-color: #C9E2B3;
+}
+.alert-notice .alert-link {
+    color: #2B542C;
+}
+
+.alert-alert {
+    background-color: #F2DEDE;
+    border-color: #EBCCD1;
+    color: #A94442;
+}
+.alert-alert hr {
+    border-top-color: #E4B9C0;
+}
+.alert-alert .alert-link {
+    color: #843534;
+}

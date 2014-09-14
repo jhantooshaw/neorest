@@ -1,0 +1,22 @@
+  <h2 class="sub-header">Import Master Tables</h2>
+  <%= form_tag clients_import_master_path, multipart: true, class: "form-horizontal", id: "formID" do %>
+      <!--<div class="form-group">  
+        <label for="import" class="col-sm-2 control-label" style="font-weight:normal;">Select Table For Import</label>
+        <div class="col-sm-3">
+          <%#= select_tag "import_type", options_for_select(["Master","Bill Detail"]), :class => "form-control validate[required]", prompt: "First select table"%>
+        </div>
+      </div>-->
+
+      <div class="form-group">   
+        <label for="import" class="col-sm-3 control-label" style="font-weight:normal;">Attach Excel File For Master Import</label>
+        <div class="col-sm-3">
+          <input type="file" name="import_file" class="filestyle validate[required, custom[checkExcelFile]]" data-icon="false" data-size="sm"  data-buttonBefore="true">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-3">
+          <button type="submit" class="btn btn-primary" disable_with ="Importing data please wait...">&nbsp;&nbsp;Import&nbsp;&nbsp;</button>
+        </div>
+      </div>
+    <%end%>

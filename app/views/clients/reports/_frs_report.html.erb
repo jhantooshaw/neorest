@@ -1,0 +1,280 @@
+<%unless @p_outlets.blank?%>
+  <div class="table-responsive" data-pattern="priority-columns">
+    <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Item Group</th>
+          <% @p_outlets.each do |outlet| %>              
+            <th data-priority="1"><%= outlet.name %></th>
+          <%end%>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%if @location.present? &&  @location.item_groups.present?%>
+          <% @location.item_groups.each do |item_group| %> 
+            <%left_total = 0%>
+            <tr>
+              <th><%= item_group.ig_name %></th>                  
+              <%(0...@p_outlets.count).each do |i|%>
+                <% a = get_net_food_global_group(item_group.id, '', 'bill_detail_backups', 'bill_master_backups', @p_outlets[i].id)%>
+                <th> <%= a[2] %></th>
+                <% left_total += a[2]%>
+              <%end%>                    
+              <th><%= left_total %></th>  
+            </tr>
+          <%end%>
+
+          <% if @tax.present? %>
+            <% if @tax.tax1_per > 0  %>
+              <tr>
+                <th> <%= "#{@tax.tax1_name} @#{@tax.tax1_per}"%><%= '(incl.)' if @tax.rate_incd_of_tax1 == 'Yes'  %></th>
+                <%left_total = 0%>
+                <%(0...@p_outlets.count).each do |i|%>
+                  <% a = get_all_tax_amount('bill_master_backups', @p_outlets[i].id)%>
+                  <th> <%= a[0] %></th>
+                  <% left_total += a[0].to_f%>
+                <%end%>
+                <th><%= left_total %></th>
+
+              </tr>
+            <%end%>
+
+            <% if @tax.tax2_per > 0  %>
+              <tr>
+                <th> <%= "#{@tax.tax2_name} @#{@tax.tax2_per}"%><%= '(incl.)' if @tax.rate_incd_of_stax == 'Yes'  %></th>
+                <%left_total = 0%>
+                <%(0...@p_outlets.count).each do |i|%>
+                  <% a = get_all_tax_amount('bill_master_backups', @p_outlets[i].id)%>
+                  <th> <%= a[1] %></th>
+                  <% left_total += a[1].to_f%>
+                <%end%>
+                <th><%= left_total %></th>
+              </tr>
+            <%end%>
+
+            <% if @tax.tax3_per > 0  %>
+              <tr>
+                <th> <%= "#{@tax.tax3_name} @#{@tax.tax3_per}"%></th>
+                <%left_total = 0%>
+                <%(0...@p_outlets.count).each do |i|%>
+                  <% a = get_all_tax_amount('bill_master_backups', @p_outlets[i].id)%>
+                  <th> <%= a[2] %></th>
+                  <% left_total += a[2].to_f%>
+                <%end%>
+                <th><%= left_total %></th>
+
+              </tr>
+            <%end%>
+
+            <% if @tax.tax4_per > 0  %>
+              <tr>
+                <th> <%= "#{@tax.tax4_name} @#{@tax.tax4_per}"%></th>
+                <%left_total = 0%>
+                <%(0...@p_outlets.count).each do |i|%>
+                  <% a = get_all_tax_amount('bill_master_backups', @p_outlets[i].id)%>
+                  <th> <%= a[3] %></th>
+                  <% left_total += a[3].to_f%>
+                <%end%>
+                <th><%= left_total %></th>
+              </tr>
+            <%end%>
+
+            <% if @tax.tax5_per > 0  %>
+              <tr>
+                <th> <%= "#{@tax.tax5_name} @#{@tax.tax5_per}"%></th>
+                <%left_total = 0%>
+                <%(0...@p_outlets.count).each do |i|%>
+                  <% a = get_all_tax_amount('bill_master_backups', @p_outlets[i].id)%>
+                  <th> <%= a[4] %></th>
+                  <% left_total += a[4].to_f%>
+                <%end%>
+                <th><%= left_total %></th>
+              </tr>
+            <%end%>
+
+            <% if @tax.service_tax_applicable == true  %>
+              <tr>
+                <th> <%= "Service Tax @#{@tax.service_tax}"%></th>
+                <%left_total = 0%>
+                <%(0...@p_outlets.count).each do |i|%>
+                  <% a = get_all_tax_amount('bill_master_backups', @p_outlets[i].id)%>
+                  <th> <%= a[5] %></th>
+                  <% left_total += a[5].to_f%>
+                <%end%>
+                <th><%= left_total %></th>
+              </tr>
+              <tr>
+                <th><%= "Education Cess @#{@tax.edu_tax}"%></th>
+                <%left_total = 0%>
+                <%(0...@p_outlets.count).each do |i|%>
+                  <% a = get_all_tax_amount('bill_master_backups', @p_outlets[i].id)%>
+                  <th> <%= a[6] %></th>
+                  <% left_total += a[6].to_f%>
+                <%end%>
+                <th><%= left_total %></th>
+
+              </tr>
+              <tr>
+                <th> <%= "Higher Education Cess @#{@tax.hs_edu_tax}"%></th>
+                <%left_total = 0%>
+                <%(0...@p_outlets.count).each do |i|%>
+                  <% a = get_all_tax_amount('bill_master_backups', @p_outlets[i].id)%>
+                  <th> <%= a[7] %></th>
+                  <% left_total += a[7].to_f%>
+                <%end%>
+                <th><%= left_total %></th>
+              </tr>
+            <%end%>
+          <%end%>
+
+
+          <tr>
+            <th>Discount</th>
+            <%left_total = 0%>
+            <%(0...@p_outlets.count).each do |i|%>
+              <% a = get_dis_amount('bill_master_backups', params[:start_date], params[:end_date], @p_outlets[i].id)%>
+              <th> <%= a[0]%></th>
+              <% left_total += a[0].to_f%>
+            <%end%>
+            <th><%= left_total %></th>
+          </tr>
+          <tr>
+            <th>Net Amt</th>
+            <%left_total = 0%>
+            <%(0...@p_outlets.count).each do |i|%>
+              <% a = get_dis_amount('bill_master_backups', params[:start_date], params[:end_date], @p_outlets[i].id)%>
+              <th> <%= a[1]%></th>
+              <% left_total += a[1].to_f%>
+            <%end%>
+            <th><%= left_total %></th>
+          </tr>
+          <tr>
+            <th>Round Off</th>
+            <%left_total = 0%>
+            <%(0...@p_outlets.count).each do |i|%>
+              <% a = get_round_off_amount('bill_master_backups', params[:start_date], params[:end_date], @p_outlets[i].id)%>
+              <th> <%= a%></th>
+              <% left_total += a.to_f%>
+            <%end%>
+            <th><%= left_total %></th>
+          </tr>
+          <tr>
+            <th>Comp Amt.</th>
+            <%left_total = 0%>
+            <%(0...@p_outlets.count).each do |i|%>
+              <% a = get_comp_amount('comp_bill_master_backups', params[:start_date], params[:end_date], @p_outlets[i].id)%>
+              <th> <%= a %></th>
+              <% left_total += a.to_f%>
+            <%end%>
+            <th><%= left_total %></th>
+          </tr>
+          <tr>
+
+            <th>No. Bills Void</th>
+            <%left_total = 0%>
+            <%(0...@p_outlets.count).each do |i|%>
+              <% a = get_no_bills_voided('bill_master_backups', params[:start_date], params[:end_date], @p_outlets[i].id)%>
+              <th> <%= a %></th>
+              <% left_total += a%>
+            <%end%>
+            <th><%= left_total %></th>
+          </tr>
+          <tr> 
+            <th>No. Bills Edited</th>
+            <%left_total = 0%>
+            <%(0...@p_outlets.count).each do |i|%>
+              <% a = get_no_bills_edited('bill_master_backups', params[:start_date], params[:end_date], @p_outlets[i].id)%>
+              <th> <%= a %></th>
+              <% left_total += a%>
+            <%end%>
+            <th><%= left_total %></th>
+          </tr>
+          <tr><th>Kot Cancel Value</th></tr>
+          <tr>
+            <th>Cash</th>
+            <%left_total = 0%>
+            <%(0...@p_outlets.count).each do |i|%>
+              <% a = get_sale( params[:start_date], params[:end_date], @p_outlets[i].id, 'Cash')%>
+              <th> <%= a %></th>
+              <% left_total += a%>
+            <%end%>
+            <th><%= left_total %></th>
+          </tr>
+          <tr>
+            <th>Credit Card</th>
+            <%left_total = 0%>
+            <%(0...@p_outlets.count).each do |i|%>
+              <% a = get_sale( params[:start_date], params[:end_date], @p_outlets[i].id, 'CC')%>
+              <th> <%= a %></th>
+              <% left_total += a%>
+            <%end%>
+            <th><%= left_total %></th>
+          </tr>
+          <tr>
+            <th>Cheque</th>
+            <%left_total = 0%>
+            <%(0...@p_outlets.count).each do |i|%>
+              <% a = get_sale( params[:start_date], params[:end_date], @p_outlets[i].id, 'Chq')%>
+              <th> <%= a %></th>
+              <% left_total += a%>
+            <%end%>
+            <th><%= left_total %></th>
+          </tr>
+          <tr>
+            <th>Manager</th>
+            <%left_total = 0%>
+            <%(0...@p_outlets.count).each do |i|%>
+              <% a = get_sale( params[:start_date], params[:end_date], @p_outlets[i].id, 'Manager')%>
+              <th> <%= a %></th>
+              <% left_total += a%>
+            <%end%>
+            <th><%= left_total %></th>
+          </tr>
+          <tr>
+
+            <th>SodexHo</th>
+            <%left_total = 0%>
+            <%(0...@p_outlets.count).each do |i|%>
+              <% a = get_sale( params[:start_date], params[:end_date], @p_outlets[i].id, 'Sodexo')%>
+              <th> <%= a %></th>
+              <% left_total += a%>
+            <%end%>
+            <th><%= left_total %></th>
+          </tr> 
+          <tr>
+            <th>Room</th>
+            <%left_total = 0%>
+            <%(0...@p_outlets.count).each do |i|%>
+              <% a = get_sale( params[:start_date], params[:end_date], @p_outlets[i].id, 'Room')%>
+              <th> <%= a %></th>
+              <% left_total += a%>
+            <%end%>
+            <th><%= left_total %></th>
+          </tr> 
+
+          <tr>
+            <th>Total</th>
+            <%(0...@p_outlets.count).each do |i|%>
+              <%row_total = 0%>
+              <th>dddd</th>
+            <%end%>
+
+
+          </tr>
+
+        <%end%>
+      </tbody>
+
+    </table>
+  </div>
+<%else%>
+  <br/><br/>
+  No Bills Made!!!
+<%end%>
+
+<script type="text/javascript">
+  $(function() {
+    $('.table-responsive').responsiveTable();
+  });
+</script>
