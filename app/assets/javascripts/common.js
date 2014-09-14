@@ -7,7 +7,9 @@
 $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 
 $(document).ready(function() {
-    //  open_dialog(true);
+    setTimeout(function() {
+        $('.alert').fadeOut('slow');
+    }, 10000);
 
     $("#formID, #formImportID, #formSetID").validationEngine();
     $('.onlyinteger').bind('keypress', function(e) {

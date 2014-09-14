@@ -71,3 +71,7 @@ body {
 .alert-alert .alert-link {
     color: #843534;
 }
+
+h2{
+    margin-top: 0px;
+}
