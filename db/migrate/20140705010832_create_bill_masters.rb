@@ -1,6 +1,7 @@
 class CreateBillMasters < ActiveRecord::Migration
   def change
-    create_table :bill_master, options: "ENGINE=MyISAM" do |t|
+    test = Rails.env.development? ? "ENGINE=MyISAM" : ""
+    create_table :bill_master, options: test do |t|
       t.references       :client
       t.references       :financial_year
       t.references       :location
