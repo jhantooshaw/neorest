@@ -27,7 +27,7 @@ module Devise
 
       def after_sign_in_path_for_subdomain_for_client(resource_or_scope)
         subdomain_name = current_client.subdomain
-        if request.subdomain(0).blank?
+        if request.subdomain($tld_length).blank?
           # logout of root domain and login by token to subdomain
           token =  current_client.authentication_token
           current_client.authentication_token = token
@@ -36,7 +36,7 @@ module Devise
           home_path = valid_client_url(token, :subdomain => subdomain_name)
           return home_path
         else
-          if subdomain_name != request.subdomain(0)
+          if subdomain_name != request.subdomain($tld_length)
             # user not part of current_subdomain
             sign_out(current_client)
             flash[:notice] = nil

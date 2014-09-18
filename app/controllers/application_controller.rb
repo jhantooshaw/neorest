@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
     
   def valid_subdomain_required?    
-    subdomain = request.subdomain(0)  
+    subdomain = request.subdomain($tld_length)  
     case subdomain
     when 'admin', 'www','', nil
       true
