@@ -29,7 +29,7 @@ class CreateCompBillMasterBackups < ActiveRecord::Migration
       t.string           :step,                 default: 'started'
       t.timestamps
     end
-    add_index :comp_bill_master_backups, [:location_id, :outlet_id, :bill_no, :bill_date, :financial_year_id], name: 'by_location_outlet_bill', unique: true
+    add_index :comp_bill_master_backups, [:location_id, :outlet_id, :bill_no, :bill_date, :financial_year_id], name: 'by_location_outlet_bill_comp', unique: true
     add_index :comp_bill_master_backups, :financial_year_id
     add_index :comp_bill_master_backups, :outlet_id
     add_index :comp_bill_master_backups, :bill_no    

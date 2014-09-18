@@ -94,7 +94,7 @@ class CreateAdjBillMasterBackups < ActiveRecord::Migration
       t.string           :step,                 default: 'started'
       t.timestamps
     end
-    add_index :adj_bill_master_backups, [:location_id, :outlet_id, :bill_no, :bill_date, :bill_type, :financial_year_id], name: 'by_location_outlet_bill', unique: true
+    add_index :adj_bill_master_backups, [:location_id, :outlet_id, :bill_no, :bill_date, :bill_type, :financial_year_id], name: 'by_location_outlet_bill_adj', unique: true
     add_index :adj_bill_master_backups, :financial_year_id
     add_index :adj_bill_master_backups, :outlet_id
     add_index :adj_bill_master_backups, :bill_no
