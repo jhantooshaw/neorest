@@ -1,6 +1,7 @@
 class CreateAdjBillDetailBackups < ActiveRecord::Migration
   def change
-    create_table :adj_bill_detail_backups, options: "ENGINE=MyISAM" do |t|      
+    test = Rails.env.development? ? "ENGINE=MyISAM" : ""
+    create_table :adj_bill_detail_backups, options: test do |t|      
       t.references        :adj_bill_master_backup      # find adj bill master backup
       t.integer           :auto_no
       t.integer           :serial_no
