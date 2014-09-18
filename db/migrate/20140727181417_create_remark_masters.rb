@@ -5,6 +5,6 @@ class CreateRemarkMasters < ActiveRecord::Migration
       t.string           :remarks
       t.timestamps
     end
-    add_index :remark_masters, [:location_id, :remarks], unique: true
+    add_index :remark_masters, [:location_id, :remarks], name: 'by_loc_remarks', unique: true
   end
 end

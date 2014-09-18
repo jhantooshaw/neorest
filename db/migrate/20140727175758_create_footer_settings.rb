@@ -11,7 +11,7 @@ class CreateFooterSettings < ActiveRecord::Migration
       t.string           :footer_four,          default: ""
       t.timestamps
     end
-    add_index :footer_settings, [:location_id, :outlet_id, :header_id], unique: true
+    add_index :footer_settings, [:location_id, :outlet_id, :header_id], name: 'by_loc_out_header',  unique: true
     add_index :footer_settings, :outlet_id
     add_index :footer_settings, :header
   end
