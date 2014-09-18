@@ -79,6 +79,6 @@ class CreateSettings < ActiveRecord::Migration
       t.string            :port_no
       t.timestamps
     end
-    add_index :settings, [:location_id, :outlet_id], name: 'by_location_outlet', unique: true
+    add_index :settings, [:location_id, :outlet_id], name: 'by_location_outlet_settings', unique: true
   end
 end
