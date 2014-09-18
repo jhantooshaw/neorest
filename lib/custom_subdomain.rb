@@ -12,7 +12,8 @@ end
 
 class ClientSubdomain
   def self.matches?(request)
-    subdomain = request.subdomain(0)
+    puts"================TLD LENGTH: #{$tld_length}"
+    subdomain = request.subdomain($tld_length)
     p"=================Sub Domain: #{subdomain}"
     #subdomain = request.subdomains(SubdomainFu.config.tld_size).join(".")    
     case subdomain
