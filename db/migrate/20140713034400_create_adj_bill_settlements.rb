@@ -19,7 +19,7 @@ class CreateAdjBillSettlements < ActiveRecord::Migration
       t.string           :step,                 default: 'started'
       t.timestamps
     end
-    add_index :adj_bill_settlements, [:adj_bill_master_backup_id, :auto_no], unique: true
+    add_index :adj_bill_settlements, [:adj_bill_master_backup_id, :auto_no], name: 'by_adj_bill_master_auto_no', unique: true
     add_index :adj_bill_settlements, :pay_type
     add_index :adj_bill_settlements, :customer_id
     add_index :adj_bill_settlements, :customer_name

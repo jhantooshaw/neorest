@@ -19,7 +19,7 @@ class CreateCompBillDetailBackups < ActiveRecord::Migration
       t.string           :step,                 default: 'started'
       t.timestamps
     end
-    add_index :comp_bill_detail_backups, [:comp_bill_master_backup_id, :auto_no], unique: true
+    add_index :comp_bill_detail_backups, [:comp_bill_master_backup_id, :auto_no], name: 'by_comp_master_auto_no', unique: true
     add_index :comp_bill_detail_backups, :item_id
   end
 end
