@@ -22,4 +22,5 @@
 //= require bootstrap-datepicker
 //= require rwd-table.min
 //= require jquery.blockUI
+//= require country_state_select
 //= require common

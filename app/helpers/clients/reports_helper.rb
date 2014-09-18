@@ -28,7 +28,7 @@ module Clients::ReportsHelper
         if table_detail == "comp_bill_detail_backups"
           temp_dis = 0
         else
-          if bill.discountable == 'Yes'
+          if bill.discountable == 'Yes' && get_dis_applicable(bill.bill_master_backup, bill.excisable, table_master) == true
             temp_dis = get_dis_global(bill.bill_master_backup, bill.amount, table_master)
             tot_dis = tot_dis + temp_dis.to_f
           end
@@ -54,8 +54,12 @@ module Clients::ReportsHelper
     end    
   end
   
-  def get_dis_applicable()
-    
+  def get_dis_applicable(master_data, excisable, table_master)
+    found = false
+    if master_data.dis_both > 0 or (master_data.dis_liquer > 0 && master_data.excisable == 'Yes') or (master_data.dis_food > 0 && master_data.excisable == 'No')
+      found = true
+    end
+    return found
   end
   
   def get_dis_amount(table_master, start_date, end_date, outlet_id)
@@ -159,11 +163,17 @@ module Clients::ReportsHelper
           temp_tax_incl = temp_tax_incl + get_tax_global(bill.bill_master_backup, bill.amount, "bill_master_backups", 'B', bill.mrp*bill.qty, temp_discount).to_f
         end
       end
-      temp_other_tax = temp_other_tax + get_tax_st34(bill.bill_master_backup, bill.amount, "bill_master_backups", 'F', bill.mrp*bill.qty, temp_discount).to_f      
-      temp_discount = number_with_precision(temp_discount, precision: 2)
+      temp_other_tax = temp_other_tax + get_tax_st34(bill.bill_master_backup, bill.amount, "bill_master_backups", 'F', bill.mrp*bill.qty, temp_discount).to_f   
+      temp_discount = temp_discount
       temp_dis = temp_dis + temp_discount.to_f
       temp_net = temp_net + (bill.amount - temp_discount.to_f)
-    end    
+    end 
+    temp_amt        = number_with_precision(temp_amt, precision: 2).to_f 
+    temp_discount   = number_with_precision(temp_discount, precision: 2).to_f 
+    temp_net        = number_with_precision(temp_net, precision: 2).to_f 
+    temp_tax        = number_with_precision(temp_tax, precision: 2).to_f 
+    temp_other_tax  = number_with_precision(temp_other_tax, precision: 2).to_f 
+    temp_tax_incl   = number_with_precision(temp_tax_incl, precision: 2).to_f     
     return temp_qty, temp_amt, temp_discount, temp_net, temp_tax, temp_other_tax, temp_tax_incl
   end
   
@@ -194,7 +204,11 @@ module Clients::ReportsHelper
   end
   
   def check_inc_stax(tax)
-    return false;
+    found = false
+    if tax.rate_incd_of_stax.present? && tax.rate_incd_of_stax == 'Yes'
+      found = true
+    end
+    return found
   end
   
   def get_tax_st34(master_data, amount, table_master, bar_or_food, mrp, bill_dis)
@@ -210,7 +224,7 @@ module Clients::ReportsHelper
       end
       
       if master_data.service_tax_per.present? or master_data.service_tax_per != 0
-        tot_ser_tax_amt = ((amount - bill_dis.to_f)*(100 - master_data.abatement))/100        
+        tot_ser_tax_amt = ((amount - bill_dis.to_f)*(100 - get_st_abatement(master_data.outlet.tax)))/100        
         stax_amt  = number_with_precision(tot_ser_tax_amt*master_data.service_tax_per/100, precision: 2)  
         etax_amt  = number_with_precision(tot_ser_tax_amt*master_data.edu_tax_per/100, precision: 2)  
         hstax_amt = number_with_precision(tot_ser_tax_amt*master_data.hs_edu_tax_per/100, precision: 2)         
@@ -287,5 +301,28 @@ module Clients::ReportsHelper
       tot_hs_edu_tax  = change_decimal(bills[0].tot_hs_edu_tax)  if bills[0].tot_hs_edu_tax.present? 
     end
     return tot_tax1_amt, tot_tax2_amt, tot_tax3_amt, tot_tax4_amt, tot_tax5_amt, tot_service_tax, tot_edu_tax, tot_hs_edu_tax
+  end
+  
+  
+  def get_st_abatement(tax) 
+    abatement = 0.0
+    if tax.abatement > 0
+      abatement = tax.abatement
+    end
+    return abatement
+  end
+  
+  def get_ser_taxable_amt(bill_date, table_master)
+    tot_ser_taxable_amt = 0.0 
+    case table_master 
+    when 'bill_master_backups'
+      if params[:outlet_id].present?
+        bill_outlet_query = " and outlet_id= #{params[:outlet_id]}"
+      end   
+      bills = BillMasterBackup.where("location_id= ? #{bill_outlet_query} and bill_date=? and tax4_amount > 0", 
+        params[:location_id], bill_date).sum(:net_amount)
+      tot_ser_taxable_amt = change_decimal(bills) if bills.present?
+    end
+    return tot_ser_taxable_amt
   end
 end

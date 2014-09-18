@@ -49,3 +49,9 @@ gem 'spreadsheet', '0.9.7'
 gem 'devise-token_authenticatable'
 gem 'roo', '~> 1.13.2'
 gem 'jquery-turbolinks'
+gem 'will_paginate-bootstrap'
+gem 'country_state_select'
+
+group :production do
+  gem 'pg'
+end

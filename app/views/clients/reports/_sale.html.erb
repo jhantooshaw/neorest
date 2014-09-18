@@ -4,13 +4,13 @@
       <thead>
         <tr>
           <th>Bill Date</th>
-          <th data-priority="1">Gross Amount</th>
+          <th data-priority="1">Gross<br/>Amount</th>
           <th data-priority="1">Discount</th>
           <th data-priority="1">Net Amount</th>
-          <th data-priority="1">Vatable</th>
-          <th data-priority="1">Non Taxable</th>
-          <th data-priority="1">Excisable</th>
-          <th data-priority="1">Service Taxable</th>
+          <th data-priority="1">Vatable<br/>Amount</th>
+          <th data-priority="1">Non Taxable<br/> Amount</th>
+          <th data-priority="1">Excisable<br/>Amount</th>
+          <th data-priority="1">Serv Taxable<br/>Amount</th>
           <th data-priority="1">Total tax</th>
           <th data-priority="1">Round Off</th>
           <th data-priority="1">Bill Amount</th> 
@@ -39,7 +39,7 @@
             <td><%= change_decimal(bill.tot_taxable_amount) %></td>
             <td><%= change_decimal(bill.tot_non_taxable_amount) %></td>
             <td><%= change_decimal(bill.tot_exciseable_amount) %></td>
-            <td>getServTaxableAmt</td>
+            <td><%= change_decimal(get_ser_taxable_amt(bill.bill_date, 'bill_master_backups')) %></td>
             <td><%= change_decimal(bill.tot_s_tax) %></td>
             <td><%= change_decimal(bill.tot_round_off) %></td>
             <td><%= change_decimal(bill.tot_total_amount) %></td>
@@ -83,25 +83,21 @@
           <td><%= change_decimal(@tot_bills.tot_taxable_amount) %></td>
           <td><%= change_decimal(@tot_bills.tot_non_taxable_amount) %></td>
           <td><%= change_decimal(@tot_bills.tot_exciseable_amount) %></td>
-          <td>getTotalServTaxableAmt</td>
+          <td><%= change_decimal(@tot_ser_bills.tot_ser_taxable_amount) %></td>
           <td><%= change_decimal(@tot_bills.tot_s_tax) %></td>
           <td><%= change_decimal(@tot_bills.tot_round_off) %></td>
           <td><%= change_decimal(@tot_bills.tot_total_amount) %></td>
+          
           <td><%= change_decimal(tax1) %></td>
           <td><%= change_decimal(@tot_bills.tot_tax1_amount) %></td>
-
           <td><%= change_decimal(tax2) %></td>
           <td><%= change_decimal(@tot_bills.tot_tax2_amount) %></td>
-
           <td><%= change_decimal(tax3) %></td>
           <td><%= change_decimal(@tot_bills.tot_tax3_amount) %></td>
-
           <td><%= change_decimal(tax4) %></td>
           <td><%= change_decimal(@tot_bills.tot_tax4_amount) %></td>
-
           <td><%= change_decimal(tax5) %></td>
           <td><%= change_decimal(@tot_bills.tot_tax5_amount) %></td>
-
           <td><%= change_decimal(stax) %></td>
           <td><%= change_decimal(@tot_bills.tot_stontax4_amount) %></td>
         </tr>

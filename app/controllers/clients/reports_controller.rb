@@ -27,7 +27,7 @@ class Clients::ReportsController < ApplicationController
       end
       @bills = BillDetailBackup.joins(:bill_master_backup).includes(:item => [:item_group, :item_sub_group]).where("bill_master_backups.location_id = ? #{bill_outlet_query} 
         and bill_master_backups.bill_date between ? and ? and bill_detail_backups.canceled = 'NO'", params[:location_id], params[:start_date], params[:end_date])
-        .select('bill_master_backup_id, item_id, bill_detail_backups.rate').group(:item_id, :rate)
+        .group(:item_id, :rate).paginate(:page => params[:page])
     end
   end
   
@@ -53,6 +53,11 @@ class Clients::ReportsController < ApplicationController
         tot_s_tax, sum(round_off) as tot_round_off, sum(total_amount) as tot_total_amount, sum(tax1_amount) as tot_tax1_amount, sum(tax2_amount) as tot_tax2_amount, sum(tax3_amount) 
         as tot_tax3_amount, sum(tax4_amount) as tot_tax4_amount, sum(tax5_amount) as tot_tax5_amount, sum(stontax4_amount) as tot_stontax4_amount, sum(service_tax) as tot_service_tax, 
         sum(edu_tax) as tot_edu_tax, sum(hs_edu_tax) as tot_hs_edu_tax').first
+      
+      @tot_ser_bills = BillMasterBackup.where("bill_master_backups.location_id = ? #{bill_outlet_query} and bill_master_backups.bill_date between ? and ? and tax4_amount > 0", 
+        params[:location_id], params[:start_date], params[:end_date]).select('sum(net_amount) as 
+        tot_ser_taxable_amount').first
+      
     end
   end
   

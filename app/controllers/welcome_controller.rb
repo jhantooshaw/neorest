@@ -3,7 +3,7 @@ class WelcomeController < ApplicationController
   
   
   def index
-   # redirect_to new_client_session_path
+    redirect_to new_client_session_path
   end
   
   # check subdomain availability
