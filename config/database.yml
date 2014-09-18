@@ -47,8 +47,17 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
+#production:
+#  <<: *default
+#  database: neo_rest_production
+#  username: neo_rest
+#  password: <%= ENV['NEO_REST_DATABASE_PASSWORD'] %>
+
+
 production:
-  <<: *default
+  adapter:  postgres
+  encoding: unicode
+  pool: 5
   database: neo_rest_production
   username: neo_rest
-  password: <%= ENV['NEO_REST_DATABASE_PASSWORD'] %>
+  password: 
