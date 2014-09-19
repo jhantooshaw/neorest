@@ -54,6 +54,15 @@
             </li>
           </ul>
 
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a data-toggle="dropdown" class="dropdown-toggle" href="#" data-hover="dropdown" data-close-others="true" data-delay="0">Settings <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="javascript:void(0);" onclick="open_dialog(true, 'set_dialog');">Change Year</a></li>
+              </ul>
+            </li>
+          </ul>
+
           <span style="float:right;"><%if session[:financial_year_id].present? && session[:location_id].present?%>
               <a style="float:right;padding-top:15px;color:#777777;cursor:pointer;" onhover="color:white;">Logged in as <%= current_client.email %> at <%= current_location.name %> in <%= current_year.name %></a>
             <%end%>

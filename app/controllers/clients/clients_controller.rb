@@ -12,6 +12,7 @@ class Clients::ClientsController < ApplicationController
     status = ""
     begin
       unless params[:location].blank?
+        set_original_path(params[:location]) 
         data = Roo::Spreadsheet.open(@original_path)        
         data.default_sheet = "Location"
         status = Location.import(data, current_client) unless data.last_row <= 1

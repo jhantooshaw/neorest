@@ -5,14 +5,21 @@ class Clients::ReportsController < ApplicationController
   
   def frs_report    
     if request.xhr?
+      bill_outlet_query = ''
       if params[:outlet_id].present?
         @p_outlets = @outlets.collect { |outlet| outlet if outlet.id == params[:outlet_id].to_i}.compact
+        bill_outlet_query = " and bill_master_backups.outlet_id= #{params[:outlet_id]}"
         @tax = Tax.where(outlet_id: params[:outlet_id]).first
       else
         @p_outlets = @outlets.order("name asc")
         @tax = Tax.where(location_id: params[:location_id]).first
       end
       @location = @locations.includes(:item_groups).find(params[:location_id])
+      
+      @bills = BillDetailBackup.joins(:bill_master_backup).where("bill_master_backups.location_id = ? #{bill_outlet_query} 
+        and bill_master_backups.bill_date between ? and ? and bill_detail_backups.canceled = 'NO'", params[:location_id], params[:start_date], params[:end_date]).count
+      
+      
     end    
   end  
   
@@ -27,7 +34,7 @@ class Clients::ReportsController < ApplicationController
       end
       @bills = BillDetailBackup.joins(:bill_master_backup).includes(:item => [:item_group, :item_sub_group]).where("bill_master_backups.location_id = ? #{bill_outlet_query} 
         and bill_master_backups.bill_date between ? and ? and bill_detail_backups.canceled = 'NO'", params[:location_id], params[:start_date], params[:end_date])
-        .group(:item_id, :rate).paginate(:page => params[:page])
+      .group(:item_id, :rate).paginate(:page => params[:page])
     end
   end
   

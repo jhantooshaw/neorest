@@ -41,7 +41,7 @@ module Devise
             sign_out(current_client)
             flash[:notice] = nil
             #set_flash_message(:error, :subdomain)
-            set_flash_message(:error, "Sub domain does not match")
+            set_flash_message(:alert, "Sub domain does not match. Please remove subdomain from browser url.")
             after_sign_out_path_for(resource_or_scope)
           else           
             stored_location_for(resource_or_scope) || signed_in_root_path(resource_or_scope)
@@ -65,9 +65,9 @@ module Devise
       end
       
       def after_sign_out_path_for(resource_or_scope)
-       # if resource.is_a? Client
-          new_client_session_url
-      #  end
+        # if resource.is_a? Client
+        new_client_session_url
+        #  end
       end
 
     end

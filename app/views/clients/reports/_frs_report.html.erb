@@ -1,4 +1,4 @@
-<%unless @p_outlets.blank?%>
+<% if @p_outlets.present? && @bills > 0%>
   <div class="table-responsive" data-pattern="priority-columns">
     <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
       <thead>

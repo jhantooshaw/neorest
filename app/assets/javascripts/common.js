@@ -6,7 +6,7 @@
 
 $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 
-$(document).ready(function() {
+$(document).on('ready page:load', function() {
     setTimeout(function() {
         $('.alert').fadeOut('slow');
     }, 10000);
@@ -23,7 +23,7 @@ $(document).ready(function() {
         }
         $.ajax({
             type: "GET",
-            url: "get-locations/" + $(this).val(),
+            url: "/get-locations/" + $(this).val(),
             dataType: "html"
         })
                 .fail(function(msg) {
@@ -91,6 +91,13 @@ $(document).ready(function() {
         }
         end_date.hide();
     }).data('datepicker');
+
+    $('.import_button').on('click', function() {
+        if (!$("#formID").validationEngine('validate')) {
+            return false;
+        }
+        $.blockUI({message: '<h4><img src="/assets/loader.gif" alt="" /> Please wait, it will take few minutes...</h4>'});
+    });
 
 });
 

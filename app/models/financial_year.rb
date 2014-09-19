@@ -9,7 +9,7 @@ class FinancialYear < ActiveRecord::Base
   has_many      :void_bills
   
   validates     :name, :presence => true
-  validates_uniqueness_of :name,        scope: [:start_date, :end_date], case_sensitive: false, message: "duplicate entry" 
+  validates_uniqueness_of :name,        scope: [:client, :start_date, :end_date], case_sensitive: false, message: "duplicate entry" 
     
   def self.import(sheet, current_client)   
     begin

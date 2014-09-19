@@ -37,7 +37,6 @@ class Clients::ImportsController < ApplicationController
         end 
         raise status[1] if status [0] == false
         
-        
         data.each_with_pagename do |name, sheet|
           table_name = name.downcase
           case table_name
@@ -82,12 +81,10 @@ class Clients::ImportsController < ApplicationController
             raise status[1] if status [0] == false  
           when "tax"
             status = Tax.import(sheet, current_location) unless sheet.last_row <= 1
-            raise status[1] if status [0] == false  
-            
+            raise status[1] if status [0] == false              
           when "user_validation"  
             status = StaffSubMenuSetting.import(sheet, current_location) unless sheet.last_row <= 1
             raise status[1] if status [0] == false  
-            #USERMAINMENU
           when "usermainmenu"  
             status = StaffMenuSetting.import(sheet, current_location) unless sheet.last_row <= 1
             raise status[1] if status [0] == false                        

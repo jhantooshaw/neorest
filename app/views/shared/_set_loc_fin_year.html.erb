@@ -5,6 +5,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+        <% if session[:financial_year_id].present? && session[:location_id].present? %>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <%end%>
         <h5 class="modal-title" id="myModalLabel">Set Current Financial Year & Location</h5>
       </div>
       <%= form_tag clients_set_loc_fin_year_path, class: "form-horizontal", id: "formSetID" do %>
