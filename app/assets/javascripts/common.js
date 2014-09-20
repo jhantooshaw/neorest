@@ -6,7 +6,7 @@
 
 $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 
-$(document).on('ready page:load', function() {
+$(document).on('ready', function() {
     setTimeout(function() {
         $('.alert').fadeOut('slow');
     }, 10000);
