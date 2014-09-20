@@ -65,4 +65,4 @@ test:
 #  password:
     
 production:  
-  url: "postgres://twdqavyfxwclfo:GvsJNa7DG11Y5aYJ0vt3xeHiP3@ec2-54-204-24-154.compute-1.amazonaws.com:5432/ddhq3gi6f21l5t"  
+  url: "postgres://twdqavyfxwclfo:GvsJNa7DG11Y5aYJ0vt3xeHiP3@ec2-54-204-24-154.compute-1.amazonaws.com:5432/ddhq3gi6f21l5t"
