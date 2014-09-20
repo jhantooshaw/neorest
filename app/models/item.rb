@@ -20,9 +20,8 @@ class Item < ActiveRecord::Base
     msg = ""
     begin
       p "Items Sheet Row: #{sheet.last_row}"
-      @line = 0
       2.upto(sheet.last_row) do |line|
-        @line = line
+        $line = line
         outlet_name = sheet.cell(line, 'B')
         outlet = location.outlets.where(name: outlet_name).first
         raise "Outlet #{outlet_name} is not found" if outlet.blank?        
@@ -61,7 +60,7 @@ class Item < ActiveRecord::Base
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in item at line no #{@line}"
+      msg = e.message + " in item at line no #{$line}"
     end      
     return success, msg
   end

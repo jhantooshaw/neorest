@@ -8,13 +8,14 @@ class BillGroup < ActiveRecord::Base
     msg = ""
     begin
       p "Bill Group Sheet Row: #{sheet.last_row}"
-      2.upto(sheet.last_row) do |line|    
+      2.upto(sheet.last_row) do |line| 
+        $line = line
         bill_group = location.bill_groups.where(name: sheet.cell(line, 'B')).first_or_initialize                
         bill_group.save!       
       end     
     rescue Exception => e
       success = false
-      msg = e.message + " in bill group"
+      msg = e.message + " in bill group at line no #{$line}"
     end      
     return success, msg
   end  

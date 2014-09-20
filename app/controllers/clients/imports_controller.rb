@@ -175,14 +175,11 @@ class Clients::ImportsController < ApplicationController
         
         CompBillMasterBackup.change_step('started', 'imported')       
         CompBillDetailBackup.change_step('started', 'imported')       
-        Void.change_step('started', 'imported') 
-        
-        
+        VoidBill.change_step('started', 'imported')         
         flash[:notice] = "Transaction data is imported successfully."
         redirect_to client_path
       end
     rescue Exception => e
-      ssssssssss
       tables.each do |table|
         case table
         when 'Bill_Master_Backup'

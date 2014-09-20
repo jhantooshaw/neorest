@@ -11,9 +11,8 @@ class CompBillDetailBackup < ActiveRecord::Base
     msg = ""
     begin
       p "Comp Bill Detail Row: #{sheet.last_row}"
-      @line = 0
       2.upto(sheet.last_row) do |line|
-        @line = line
+        $line = line
         auto_no       = sheet.cell(line, 'A').to_i
         bill_no       = sheet.cell(line, 'C').to_i
         bill_date     = sheet.cell(line, 'D')
@@ -48,7 +47,7 @@ class CompBillDetailBackup < ActiveRecord::Base
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in comp bill detail backup at line no #{@line}"
+      msg = e.message + " in comp bill detail backup at line no #{$line}"
     end      
     return success, msg
   end  

@@ -4,16 +4,16 @@
  * and open the template in the editor.
  */
 
-$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+//$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 
 $(document).on('ready', function() {
 //    setTimeout(function() {
 //        $('.alert').fadeOut('slow');
 //    }, 10000);
 
-    setInterval(function() {
-        get_response();
-    }, 15000);
+//    setInterval(function() {
+//        get_response();
+//    }, 15000);
 
     $("#formID, #formImportID, #formSetID").validationEngine();
     $('.onlyinteger').bind('keypress', function(e) {

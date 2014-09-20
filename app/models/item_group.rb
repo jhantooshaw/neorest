@@ -4,9 +4,7 @@ class ItemGroup < ActiveRecord::Base
   has_many     :items
   
   validates     :location_id, :ig_name,    presence: true
-  validates_uniqueness_of :ig_name,        scope: [:location_id], case_sensitive: false, message: "duplicate entry" 
-  
-  
+  validates_uniqueness_of :ig_name,        scope: [:location_id], case_sensitive: false, message: "duplicate entry"
   
   def self.import(sheet, location)
     success =  true
@@ -27,10 +25,6 @@ class ItemGroup < ActiveRecord::Base
       msg = e.message + " in item group at line no #{$line}"
     end      
     return success, msg
-  end  
-  
-#  def all_items(id)
-#    Item.in(:item_sub_group_id => id)
-#  end
+  end 
   
 end

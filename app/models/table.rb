@@ -15,10 +15,10 @@ class Table < ActiveRecord::Base
       2.upto(sheet.last_row) do |line|
         t_name    = sheet.cell(line, 'A').gsub("'", "")
         position  = sheet.cell(line, 'C').to_i
-        outlet = location.outlets.where(name: sheet.cell(line, 'F')).first  unless sheet.cell(line, 'F').blank?
+       # outlet = location.outlets.where(name: sheet.cell(line, 'F')).first  unless sheet.cell(line, 'F').blank?
         table_section = location.table_sections.where(section: sheet.cell(line, 'D')).first unless sheet.cell(line, 'D').blank? 
         params = {
-          outlet_id:         outlet.present? ? outlet.id : "",  
+       #   outlet_id:         outlet.present? ? outlet.id : "",  
           table_section_id:  table_section.present? ? table_section.id : "",  
           max_pax:           sheet.cell(line, 'B').to_i,                    
           inUse:             sheet.cell(line, 'E') == 'false' ? false : true,        

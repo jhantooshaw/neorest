@@ -9,6 +9,7 @@ class ComboPackage < ActiveRecord::Base
     begin
       p "Combo Package Sheet Row: #{sheet.last_row}"
       2.upto(sheet.last_row) do |line|
+        $line = line
         params = {
           is_active:          sheet.cell(line, 'C') == 'true' ? true : false, 
           linked_happy_hour:  sheet.cell(line, 'D') == 'true' ? true : false          
@@ -18,7 +19,7 @@ class ComboPackage < ActiveRecord::Base
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in combo package"
+      msg = e.message + " in combo package at line no #{$line}"
     end      
     return success, msg
   end  

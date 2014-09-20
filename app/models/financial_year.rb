@@ -14,13 +14,14 @@ class FinancialYear < ActiveRecord::Base
   def self.import(sheet, current_client)   
     begin
       p "Financial Year Sheet Row: #{sheet.last_row}"      
-      2.upto(sheet.last_row) do |line|       
+      2.upto(sheet.last_row) do |line| 
+        $line = line
         fin_year = current_client.financial_years.where(name: sheet.cell(line, 'B'), start_date: sheet.cell(line, 'C'), end_date: sheet.cell(line, 'D')).first_or_initialize                
         fin_year.save!
       end     
     rescue Exception => e
       success = false
-      msg = e.message + " in financial year."
+      msg = e.message + " in financial year at line no #{$line}"
     end      
     return success, msg
   end  
