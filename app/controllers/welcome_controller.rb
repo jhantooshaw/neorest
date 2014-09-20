@@ -34,4 +34,8 @@ class WelcomeController < ApplicationController
     @outlets = location.outlets
     render partial: "shared/outlets_select"
   end
+  
+  def get_response   
+   render :json => { :txt => 'OK' }
+  end
 end

@@ -7,9 +7,13 @@
 $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 
 $(document).on('ready', function() {
-    setTimeout(function() {
-        $('.alert').fadeOut('slow');
-    }, 10000);
+//    setTimeout(function() {
+//        $('.alert').fadeOut('slow');
+//    }, 10000);
+
+    setInterval(function() {
+        get_response();
+    }, 15000);
 
     $("#formID, #formImportID, #formSetID").validationEngine();
     $('.onlyinteger').bind('keypress', function(e) {
@@ -106,4 +110,18 @@ function open_dialog(open, class_name) {
     if (open === true) {
         $(pop_up).trigger('click');
     }
+}
+
+function get_response() {
+    $.ajax({
+        type: "GET",
+        url: "/get-response",
+        dataType: "html"
+    })
+            .fail(function(msg) {
+                console.log("Data fail: " + msg);
+            })
+            .done(function(msg) {
+                console.log(msg);
+            });
 }

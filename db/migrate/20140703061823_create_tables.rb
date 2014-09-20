@@ -2,6 +2,7 @@ class CreateTables < ActiveRecord::Migration
   def change
     create_table :tables do |t|
       t.references       :location  
+      t.references       :outlet  
       t.string           :t_name
       t.integer          :max_pax
       t.integer          :position

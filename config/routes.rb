@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   match 'check-subdomain' => 'welcome#check_subdomain', :as => :valid_subdomain, :via => :get
   match 'get-locations/:id'    => 'welcome#get_locations', :as => :locations, :via => :get
   match 'get-outlets/:id'    => 'welcome#get_outlets', :as => :outlets, :via => :get
+  match 'get-response'    => 'welcome#get_response', :as => :get_response, :via => :get
   
 
   
