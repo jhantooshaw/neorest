@@ -10,9 +10,8 @@ class Setting < ActiveRecord::Base
     msg = ""
     begin
       p "Setting Sheet Row: #{sheet.last_row}"
-      @line = 0
       2.upto(sheet.last_row) do |line|
-        @line = line
+        $line = line
         outlet_name    = sheet.cell(line, 'C')       
         outlet = location.outlets.where(name: outlet_name).first
         raise "Outlet #{outlet_name} is not found" if outlet.blank?         
@@ -100,7 +99,7 @@ class Setting < ActiveRecord::Base
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in setting at line no #{@line}"
+      msg = e.message + " in setting at line no #{$line}"
     end
     return success, msg
   end   

@@ -15,7 +15,8 @@ class Waiter < ActiveRecord::Base
     msg = ""
     begin
       p "Waiter Sheet Row: #{sheet.last_row}"
-      2.upto(sheet.last_row) do |line|        
+      2.upto(sheet.last_row) do |line|
+        $line = line        
         outlet = location.outlets.where(name: sheet.cell(line, 'D')).first  unless sheet.cell(line, 'D').blank?
         params = {
           outlet_id:      outlet.present? ? outlet.id : "",           
@@ -27,7 +28,7 @@ class Waiter < ActiveRecord::Base
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in waiter"
+      msg = e.message + " in waiter at line no #{$line}"
     end
     return success, msg
   end   

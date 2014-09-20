@@ -13,6 +13,7 @@ class Table < ActiveRecord::Base
     begin
       p "Table Master Sheet Row: #{sheet.last_row}"
       2.upto(sheet.last_row) do |line|
+        $line = line
         t_name    = sheet.cell(line, 'A').gsub("'", "")
         position  = sheet.cell(line, 'C').to_i
        # outlet = location.outlets.where(name: sheet.cell(line, 'F')).first  unless sheet.cell(line, 'F').blank?
@@ -29,7 +30,7 @@ class Table < ActiveRecord::Base
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in table master"
+      msg = e.message + " in table master at line no #{$line}"
     end
     return success, msg
   end  

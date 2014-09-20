@@ -11,13 +11,14 @@ class RemarkMaster < ActiveRecord::Base
     msg = ""
     begin
       p "Remarks Master Sheet Row: #{sheet.last_row}"
-      2.upto(sheet.last_row) do |line|              
+      2.upto(sheet.last_row) do |line|  
+        $line = line
         remark = location.remark_masters.where(remarks: sheet.cell(line, 'B')).first_or_initialize                
         remark.save!       
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in remarks master"
+      msg = e.message + " in remarks master at line no #{$line}"
     end
     return success, msg
   end  

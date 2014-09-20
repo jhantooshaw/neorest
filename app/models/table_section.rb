@@ -13,6 +13,7 @@ class TableSection < ActiveRecord::Base
     begin
       p "Table Section Sheet Row: #{sheet.last_row}"
       2.upto(sheet.last_row) do |line|
+        $line = line
         outlet_name = sheet.cell(line, 'C')
         outlet = location.outlets.where(name: outlet_name).first
         raise "Outlet #{outlet_name} is not found into database" if outlet.blank?
@@ -24,7 +25,7 @@ class TableSection < ActiveRecord::Base
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in table section"
+      msg = e.message + " in table section at line no #{$line}"
     end
     return success, msg
   end  

@@ -39,7 +39,8 @@ class Location < ActiveRecord::Base
     msg = ""
     begin
       p "Location Sheet Row: #{sheet.last_row}"
-      2.upto(sheet.last_row) do |line|        
+      2.upto(sheet.last_row) do |line|    
+        $line = line
         params = {
           phone:   sheet.cell(line, 'C').to_i,
           ip:      sheet.cell(line, 'D')                  
@@ -49,7 +50,7 @@ class Location < ActiveRecord::Base
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in location"
+      msg = e.message + " in location at line no #{$line}"
     end      
     return success, msg
   end  

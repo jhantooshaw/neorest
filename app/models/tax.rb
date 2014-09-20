@@ -14,6 +14,7 @@ class Tax < ActiveRecord::Base
     begin
       p "Tax Sheet Row: #{sheet.last_row}"
       2.upto(sheet.last_row) do |line|
+        $line = line
         outlet = location.outlets.where(name: sheet.cell(line, 'Q')).first  unless sheet.cell(line, 'Q').blank?        
         params = { 
           outlet_id:              outlet.present? ? outlet.id : "",
@@ -43,7 +44,7 @@ class Tax < ActiveRecord::Base
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in tax"
+      msg = e.message + " in tax at line no #{$line}"
     end
     return success, msg
   end    
