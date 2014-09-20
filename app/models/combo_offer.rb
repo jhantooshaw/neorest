@@ -14,6 +14,7 @@ class ComboOffer < ActiveRecord::Base
     begin
       p "Combo Offer Sheet Row: #{sheet.last_row}"
       2.upto(sheet.last_row) do |line|
+        $line = line
         outlet_name = sheet.cell(line, 'K')
         outlet      = location.outlets.where(name: outlet_name).first
         raise "Outlet #{outlet_name} is not found into database" if outlet.blank?
@@ -36,7 +37,7 @@ class ComboOffer < ActiveRecord::Base
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in combo offer"
+      msg = e.message + " in combo offer at line no #{$line}"
     end      
     return success, msg
   end  

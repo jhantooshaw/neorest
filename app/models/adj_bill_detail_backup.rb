@@ -9,10 +9,9 @@ class AdjBillDetailBackup < ActiveRecord::Base
     success =  true
     msg = ""
     begin
-      p "Adj Bill Detail Row: #{sheet.last_row}"
-      @line = 0
+      p "Adj Bill Detail Row: #{sheet.last_row}"      
       2.upto(sheet.last_row) do |line|
-        @line = line
+        $line = line
         auto_no      = sheet.cell(line, 'A').to_i
         bill_no      = sheet.cell(line, 'C').to_i
         bill_date    = sheet.cell(line, 'D')
@@ -55,7 +54,7 @@ class AdjBillDetailBackup < ActiveRecord::Base
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in Adj Bill Detail Backup at line no #{@line}"
+      msg = e.message + " in Adj Bill Detail Backup at line no #{$line}"
     end      
     return success, msg
   end

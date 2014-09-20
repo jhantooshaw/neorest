@@ -1,6 +1,6 @@
 class AddIndexToTables < ActiveRecord::Migration
   def change
-    add_column :tables, :outlet_id, :integer 
+#    add_column :tables, :outlet_id, :integer 
 #    add_index :bill_master_backups, [:location_id, :outlet_id, :bill_no, :bill_date, :bill_type, :financial_year_id], name: 'by_location_outlet_bill', unique: true
 #    add_index :bill_master_backups, :financial_year_id
 #    add_index :bill_master_backups, :outlet_id

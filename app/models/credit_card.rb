@@ -10,6 +10,7 @@ class CreditCard < ActiveRecord::Base
     begin
       p "Credit Card Sheet Row: #{sheet.last_row}"      
       2.upto(sheet.last_row) do |line|
+        $line = line
         cc_name = sheet.cell(line, 'A')
         params = {
           commision_amount: sheet.cell(line, 'B').to_f                 
@@ -19,7 +20,7 @@ class CreditCard < ActiveRecord::Base
       end      
     rescue Exception => e
       success = false
-      msg = e.message + " in credit card."
+      msg = e.message + " in credit card at line no #{$line}"
     end      
     return success, msg
   end  

@@ -12,9 +12,8 @@ class AdjBillSettlement < ActiveRecord::Base
     msg = ""
     begin
       p "Adj Bill Settlememnt Row: #{sheet.last_row}"
-      @line = 0
       2.upto(sheet.last_row) do |line|
-        @line = line
+        $line = line
         auto_no       = sheet.cell(line, 'A').to_i
         bill_date     = sheet.cell(line, 'B')
         bill_no       = sheet.cell(line, 'C').to_i        
@@ -50,7 +49,7 @@ class AdjBillSettlement < ActiveRecord::Base
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in adj bill settlememnt at line no #{@line}"
+      msg = e.message + " in adj bill settlement at line no #{$line}"
     end      
     return success, msg
   end 

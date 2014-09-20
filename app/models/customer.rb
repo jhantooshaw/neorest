@@ -14,7 +14,8 @@ class Customer < ActiveRecord::Base
     msg = ""
     begin
       p "Customer Sheet Row: #{sheet.last_row}"      
-      2.upto(sheet.last_row) do |line|         
+      2.upto(sheet.last_row) do |line|     
+        $line = line
         params = {
           c_name:      sheet.cell(line, 'B'), 
           address1:    sheet.cell(line, 'C'), 
@@ -39,7 +40,7 @@ class Customer < ActiveRecord::Base
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in customer"
+      msg = e.message + " in customer at line no #{$line}"
     end      
     return success, msg
   end    

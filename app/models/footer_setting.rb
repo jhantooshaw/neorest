@@ -9,11 +9,10 @@ class FooterSetting < ActiveRecord::Base
   def self.import(sheet, location)
     success =  true
     msg = ""
-    line_no = 0
     begin
       p "Footer Sheet Row: #{sheet.last_row}"
       2.upto(sheet.last_row) do |line|
-        line_no = line
+        $line = line
         outlet_name = sheet.cell(line, 'G')
         outlet = location.outlets.where(name: outlet_name).first
         raise "Outlet #{outlet_name} is not found into database" if outlet.blank?
@@ -29,7 +28,7 @@ class FooterSetting < ActiveRecord::Base
       end
     rescue Exception => e
       success = false
-      msg = e.message + " in bill footer setting at line no #{line_no}"
+      msg = e.message + " in bill footer setting at line no #{$line}"
     end
     return success, msg
   end  
