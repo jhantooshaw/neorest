@@ -1,6 +1,6 @@
-<h2 class="sub-header">Sale Report</h2>
+<h2 class="sub-header">Login Report</h2>
 
-<%= form_tag sale_clients_reports_path, role: "form", class: "form-horizontal", id: "formID", remote: true do %>
+<%= form_tag login_clients_reports_path, role: "form", class: "form-horizontal", id: "formID", remote: true do %>
     <%= render partial: "shared/report_header" %>
     <div class="col-sm-1">    
       <%= submit_tag "Generate", class: "btn btn-primary import_button" %>
@@ -8,4 +8,4 @@
     <%end%>
 
 
-<div id="sale"></div>
+<div id="login_report"></div>

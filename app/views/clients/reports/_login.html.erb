@@ -1,0 +1,54 @@
+<% unless @bills_count <= 0 %>
+  <% unless @bills.blank? %>
+    <div class="table-responsive" data-pattern="priority-columns">
+      <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Bill Date</th>
+            <th>Bill No</th>
+            <th data-priority="1">Bill Time</th>
+            <th data-priority="1">User</th>
+            <th data-priority="1">Actual Amount</th>
+            <th data-priority="1">Total Amount</th>
+            <th data-priority="1">Modified Time</th>
+            <th data-priority="1">Modified User</th>
+            <th data-priority="1">Settle Time</th>
+          </tr>
+        </thead>
+        <tbody>          
+          <%@bills.each do |bill|%>
+            <tr>
+              <td><%= date_format(bill.bill_date) %></td>
+              <td><%= bill.bill_no %></td>
+              <td><%= time_format(bill.bill_time)%></td>
+              <td><%= bill.user_name %></td>
+              <td><%= change_decimal(bill.actual_amount) %></td>              
+              <td><%= change_decimal(bill.total_amount) %></td>
+              <td><%= bill.modified_time %></td>
+              <td><%= bill.modified_name %></td>
+              <td><%= bill.settle_time %></td>
+            </tr>
+          <%end%>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="" style="text-align:center;">
+      <%= will_paginate @bills, params: {location_id: params[:location_id], outlet_id: params[:outlet_id], start_date: params[:start_date], end_date: params[:end_date]}, class: 'pagination-sm', renderer: BootstrapPagination::Rails %>
+      </div>
+
+    <%else%>
+      <br/><br/>
+      No Login Report Between Above Date!!!
+    <%end%>
+  <%else%>
+    <br/><br/>
+    No Bills Made Between Above Date!!!
+  <%end%>
+
+  <script type="text/javascript">
+    $(function() {
+      $('.table-responsive').responsiveTable();
+      $('.pagination a').attr('data-remote', 'true');
+    });
+  </script>

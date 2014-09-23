@@ -38,7 +38,7 @@
                 <li><a href="#" tabindex="-1">Change Email</a></li>
                 <li><a href="#" tabindex="-1">Change Password</a></li>
                 <li class="divider"></li>
-                <li><a href="#" tabindex="-1">Logout</a></li>
+               <!-- <li><a href="#" tabindex="-1">Logout</a></li>-->
               </ul>
             </li>
           </ul>
@@ -47,9 +47,12 @@
             <li class="dropdown">
               <a data-toggle="dropdown" class="dropdown-toggle" href="#" data-hover="dropdown" data-close-others="true" data-delay="0">Report <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><%= link_to "FRS Report", frs_report_clients_reports_path %></li>
-                <li><%= link_to "Product Wise Sale", product_wise_sale_clients_reports_path %></li>
-                <li><%= link_to "Sale Report", sale_clients_reports_path %></li>
+                <li><%= link_to "FRS Report",           frs_report_clients_reports_path %></li>
+                <li><%= link_to "Product Wise Sale",    product_wise_sale_clients_reports_path %></li>
+                <li><%= link_to "Sale Report",          sale_clients_reports_path %></li>
+                <li><%= link_to "Login Report",         login_clients_reports_path %></li>
+                <li><%= link_to "Void Bills Report",    void_bills_clients_reports_path %></li>
+                <li><%= link_to "Item Canceled Report", item_canceled_clients_reports_path %></li>
               </ul>
             </li>
           </ul>
@@ -65,7 +68,7 @@
 
           <span style="float:right;">
             <%if session[:financial_year_id].present? && session[:location_id].present?%>
-              <a style="float:right;padding-top:15px;color:#777777;cursor:pointer;" onhover="color:white;">Logged in as <%= current_client.email %> at <%= current_location.name %> in <%= current_year.name %></a>
+              <a style="float:right;padding-top:15px;color:#777777;cursor:pointer;">Logged in as <%= current_client.email %> at <%= current_location.name %> in <%= current_year.name %></a>
             <%end%>
           </span>  
           <!-- <form class="navbar-form navbar-right">

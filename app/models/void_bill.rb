@@ -25,7 +25,7 @@ class VoidBill < ActiveRecord::Base
         raise "Financial Year #{fin_year_name} is not found into database" if fin_year.blank? 
         table_no     = sheet.cell(line, 'B')
         raise "Table no should not be blank" if table_no.blank? 
-        waiter_id    = sheet.cell(line, 'H').to_i unless sheet.cell(line, 'I').blank?
+        waiter_id    = sheet.cell(line, 'I').to_i unless sheet.cell(line, 'I').blank?
         customer     = location.customers.where(c_name: sheet.cell(line, 'V')).first unless sheet.cell(line, 'V').blank?        
         bill_no      = sheet.cell(line, 'A').to_i
         bill_date    = sheet.cell(line, 'C')
@@ -67,4 +67,29 @@ class VoidBill < ActiveRecord::Base
   def self.change_step(from, to)
     unscoped.where(step: from).update_all(step: to)
   end
+  
+  #=["Bill_No", "Table_No", "Bill_Date", "Bill_Type", "Outlet", "LocationName", "Financial_Year_Name", "Bill_Time", "Wtr_No", "Wtr_Name", "Dis%", "Dis", "S_Tax", "Total", 
+  #"Pay_Type", "User", "Mod_User", "Mod_Date", "Mod_Time", "Covers", "Comment", "Customer", "CC_Name", "Settle_Time", "Remarks"]
+
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    begin
+      raise "Please set proper header for void_bills sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "Bill_No" ||
+          sheet.cell(1, 'B').to_s.strip != "Table_No" || sheet.cell(1, 'C').to_s.strip != "Bill_Date" || sheet.cell(1, 'D').to_s.strip != "Bill_Type"   || 
+          sheet.cell(1, 'E').to_s.strip != "Outlet"   || sheet.cell(1, 'F').to_s.strip != "LocationName" || sheet.cell(1, 'G').to_s.strip != "Financial_Year_Name"   || 
+          sheet.cell(1, 'H').to_s.strip != "Bill_Time"|| sheet.cell(1, 'I').to_s.strip != "Wtr_No" || sheet.cell(1, 'J').to_s.strip != "Wtr_Name"  || 
+          sheet.cell(1, 'K').to_s.strip != "Dis%"  || sheet.cell(1, 'L').to_s.strip != "Dis" || sheet.cell(1, 'M').to_s.strip != "S_Tax" || 
+          sheet.cell(1, 'N').to_s.strip != "Total"      || sheet.cell(1, 'O').to_s.strip != "Pay_Type" || sheet.cell(1, 'P').to_s.strip != "User" || 
+          sheet.cell(1, 'Q').to_s.strip != "Mod_User"|| sheet.cell(1, 'R').to_s.strip != "Mod_Date" || sheet.cell(1, 'S').to_s.strip != "Mod_Time" || 
+          sheet.cell(1, 'T').to_s.strip != "Covers" ||  sheet.cell(1, 'U').to_s.strip != "Comment" || sheet.cell(1, 'V').to_s.strip != "Customer" || 
+          sheet.cell(1, 'W').to_s.strip != "CC_Name" || sheet.cell(1, 'X').to_s.strip != "Settle_Time" || sheet.cell(1, 'Y').to_s.strip != "Remarks" 
+      )    
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end
+  
 end

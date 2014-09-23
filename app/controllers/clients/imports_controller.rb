@@ -100,19 +100,55 @@ class Clients::ImportsController < ApplicationController
       flash.now[:info] = e.message
       render :import_master
     end
-  end
-  
+  end  
+
   
   # import transaction detail
   def transaction    
     begin
-      if request.post?
+      if request.post?        
+        import = false
         raise 'Please attach an excel file for import master tables' if params[:import_file].blank?  
-        status = ""
-        tables = ['Bill_Master_Backup']
+        status = ""        
         set_original_path(params[:import_file])     
         data = Roo::Spreadsheet.open(@original_path) 
-        
+        data.each_with_pagename do |name, sheet|
+          table_name = name.downcase
+          case table_name
+          when 'adj_bill_detail_backup'
+            status = AdjBillDetailBackup.checked_attributes(sheet)
+            raise status[1] if status [0] == false    
+          when 'adj_bill_settlement'
+            status = AdjBillSettlement.checked_attributes(sheet)
+            raise status[1] if status [0] == false
+          when 'adj_bill_master_backup'
+            status = AdjBillMasterBackup.checked_attributes(sheet)
+            raise status[1] if status [0] == false            
+          when 'bill_detail_backup'
+            status = BillDetailBackup.checked_attributes(sheet)
+            raise status[1] if status [0] == false
+          when 'bill_master_backup'
+            status = BillMasterBackup.checked_attributes(sheet)
+            raise status[1] if status [0] == false            
+          when 'bill_settlement'
+            status = BillSettlement.checked_attributes(sheet)
+            raise status[1] if status [0] == false
+          when 'comp_bill_detail_backup'
+            status = CompBillDetailBackup.checked_attributes(sheet)
+            raise status[1] if status [0] == false
+          when 'comp_bill_master_backup'           
+            status = CompBillMasterBackup.checked_attributes(sheet)
+            raise status[1] if status [0] == false 
+          when 'deletd_item_detail'
+            status = DeletedItemDetail.checked_attributes(sheet)
+            raise status[1] if status [0] == false 
+          when 'void_bills'
+            status = VoidBill.checked_attributes(sheet)
+            raise status[1] if status [0] == false 
+          end
+        end
+        import = true 
+        tables = ['Bill_Master_Backup']
         data.default_sheet = 'Bill_Master_Backup'
         unless data.last_row <= 1
           status = BillMasterBackup.import(data, current_location)
@@ -196,7 +232,7 @@ class Clients::ImportsController < ApplicationController
         when 'Void_Bills'
           VoidBill.unscoped.where(step: 'started').destroy_all
         end
-      end unless tables.blank?
+      end if tables.present? && import == true
       flash.now[:info] = e.message
       render :transaction
     end

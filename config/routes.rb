@@ -18,14 +18,16 @@ Rails.application.routes.draw do
           match 'import-loc-fin-year' => 'clients#location_financial_year',         :as => :loc_fin_year,        :via => [:post]       
           match 'save-loc-fin-year'   => 'clients#save_location_financial_year',    :as => :save_loc_fin_year,   :via => [:post]  
           match 'set-loc-fin-year'    => 'clients#set_location_financial_year',     :as => :set_loc_fin_year,    :via => [:post]  
-          match 'import-master'       => 'imports#import_master',                   :as => :import_master,       :via => [:get, :post] 
-          
+          match 'import-master'       => 'imports#import_master',                   :as => :import_master,       :via => [:get, :post]           
           
           resources :reports, only: [:index] do
             collection do
-              match 'frs-report'          => 'reports#frs_report',                  :via => [:get, :post] 
-              match 'product-wise-sale'   => 'reports#product_wise_sale',           :via => [:get, :post] 
-              match 'sale'                => 'reports#sale',                        :via => [:get, :post] 
+              match 'frs-report'          => 'reports#frs_report',                  :via => [:get, :post]
+              match 'product-wise-sale'   => 'reports#product_wise_sale',           :via => [:get, :post]
+              match 'sale'                => 'reports#sale',                        :via => [:get, :post]
+              match 'login'               => 'reports#login',                       :via => [:get, :post]
+              match 'void-bills'          => 'reports#void_bills',                  :via => [:get, :post]
+              match 'item-canceled'       => 'reports#item_canceled',               :via => [:get, :post]
             end
           end
         end

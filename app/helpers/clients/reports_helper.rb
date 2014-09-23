@@ -4,6 +4,10 @@ module Clients::ReportsHelper
     date.strftime('%d-%m-%Y')
   end
   
+  def time_format(date)
+    date.strftime('%I:%M%p')
+  end
+  
   def change_decimal(value)
     number_with_precision(value, precision: 2)
   end

@@ -136,4 +136,52 @@ class AdjBillMasterBackup < ActiveRecord::Base
   def self.change_step(from, to)
     unscoped.where(step: from).update_all(step: to)
   end
+  
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    begin
+      raise "Please set proper header for adj_bill_master_backup sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "Bill_No" ||
+          sheet.cell(1, 'B').to_s.strip != "Table_No" || sheet.cell(1, 'C').to_s.strip != "Bill_Date" || sheet.cell(1, 'D').to_s.strip != "Bill_Type"   || 
+          sheet.cell(1, 'E').to_s.strip != "Outlet"   || sheet.cell(1, 'F').to_s.strip != "LocationName" || sheet.cell(1, 'G').to_s.strip != "Financial_Year_Name"   || 
+          sheet.cell(1, 'H').to_s.strip != "Bill_Time"|| sheet.cell(1, 'I').to_s.strip != "Wtr_No" || sheet.cell(1, 'J').to_s.strip != "Wtr_Name"  || 
+          sheet.cell(1, 'K').to_s.strip != "Stew_No"  || sheet.cell(1, 'L').to_s.strip != "Stew_Name" || sheet.cell(1, 'M').to_s.strip != "Dis%" || 
+          sheet.cell(1, 'N').to_s.strip != "Dis"      || sheet.cell(1, 'O').to_s.strip != "ServiceTaxPer" || sheet.cell(1, 'P').to_s.strip != "ServiceTax" || 
+          sheet.cell(1, 'Q').to_s.strip != "EducationCessPer"|| sheet.cell(1, 'R').to_s.strip != "EducationCess" || sheet.cell(1, 'S').to_s.strip != "SecondaryHigherEducationCessPer" || 
+          sheet.cell(1, 'T').to_s.strip != "SecondaryHigherEducationCess" ||  sheet.cell(1, 'U').to_s.strip != "Tax1" || sheet.cell(1, 'V').to_s.strip != "Tax1Per" || 
+          sheet.cell(1, 'W').to_s.strip != "Tax1Amt"  || sheet.cell(1, 'X').to_s.strip != "Tax2" || sheet.cell(1, 'Y').to_s.strip != "Tax2Per" || sheet.cell(1, 'Z').to_s.strip != "Tax2Amt" || 
+          sheet.cell(1, 'AA').to_s.strip != "Tax3"    || sheet.cell(1, 'AB').to_s.strip != "Tax3Per"|| sheet.cell(1, 'AC').to_s.strip != "Tax3Amt" || sheet.cell(1, 'AD').to_s.strip != "Tax4"  ||  
+          sheet.cell(1, 'AE').to_s.strip != "Tax4Per" || sheet.cell(1, 'AF').to_s.strip != "Tax4Amt"|| sheet.cell(1, 'AG').to_s.strip != "S_Tax"   || sheet.cell(1, 'AH').to_s.strip != "Excise_Amt"   || 
+          sheet.cell(1, 'AI').to_s.strip != "Round_Off" || sheet.cell(1, 'AJ').to_s.strip != "Net_Amt"  || sheet.cell(1, 'AK').to_s.strip != "Total" || sheet.cell(1, 'AL').to_s.strip != "Sub_Total"   || 
+          sheet.cell(1, 'AM').to_s.strip != "Taxable_Amt" || sheet.cell(1, 'AN').to_s.strip != "Non_Taxable_Amt" || sheet.cell(1, 'AO').to_s.strip != "Exciseable_Amt" || sheet.cell(1, 'AP').to_s.strip != "Pay_Type"   || 
+          sheet.cell(1, 'AQ').to_s.strip != "User" || sheet.cell(1, 'AR').to_s.strip != "Mod_User" || sheet.cell(1, 'AS').to_s.strip != "Mod_Date" || sheet.cell(1, 'AT').to_s.strip != "Mod_Time"   || 
+          sheet.cell(1, 'AU').to_s.strip != "Canceled" || sheet.cell(1, 'AV').to_s.strip != "Covers"   || 
+          sheet.cell(1, 'AW').to_s.strip != "Comment" || sheet.cell(1, 'AX').to_s.strip != "Customer"   || 
+          sheet.cell(1, 'AY').to_s.strip != "Delivery" || sheet.cell(1, 'AZ').to_s.strip != "CC_Name"   ||              
+          sheet.cell(1, 'BA').to_s.strip != "Actual_Amt" || sheet.cell(1, 'BB').to_s.strip != "Food_Amt"   || 
+          sheet.cell(1, 'BC').to_s.strip != "Food_Tax" || sheet.cell(1, 'BD').to_s.strip != "Food_Total"   || 
+          sheet.cell(1, 'BE').to_s.strip != "Beverage_Amt" || sheet.cell(1, 'BF').to_s.strip != "Beverage_Tax"   || 
+          sheet.cell(1, 'BG').to_s.strip != "Beverage_Total" || sheet.cell(1, 'BH').to_s.strip != "Wine_Amt"   || 
+          sheet.cell(1, 'BI').to_s.strip != "Beer_Amt" || sheet.cell(1, 'BJ').to_s.strip != "Cal_Sub_Total"   || 
+          sheet.cell(1, 'BK').to_s.strip != "Tips" || sheet.cell(1, 'BL').to_s.strip != "Grand_Total"   || 
+          sheet.cell(1, 'BM').to_s.strip != "Settle_Time" || sheet.cell(1, 'BN').to_s.strip != "NoOfPrint"   || 
+          sheet.cell(1, 'BO').to_s.strip != "PayChanged" || sheet.cell(1, 'BP').to_s.strip != "DisFood"   || 
+          sheet.cell(1, 'BQ').to_s.strip != "DisLiquer" || sheet.cell(1, 'BR').to_s.strip != "DisBoth"   || 
+          sheet.cell(1, 'BS').to_s.strip != "Room_No" || sheet.cell(1, 'BT').to_s.strip != "Hotel_Date"   || 
+          sheet.cell(1, 'BU').to_s.strip != "Banquet" || sheet.cell(1, 'BV').to_s.strip != "Out_Time"   || 
+          sheet.cell(1, 'BW').to_s.strip != "RateIncOfTax1" || sheet.cell(1, 'BX').to_s.strip != "TacCalAfterDis"   || 
+          sheet.cell(1, 'BY').to_s.strip != "RateIncOfSTax" || sheet.cell(1, 'BZ').to_s.strip != "ServiceTaxApplicable"  ||           
+          sheet.cell(1, 'CA').to_s.strip != "Abatement" || sheet.cell(1, 'CB').to_s.strip != "Tax1CalLast"   || 
+          sheet.cell(1, 'CC').to_s.strip != "LinkedFinancialYear" || sheet.cell(1, 'CD').to_s.strip != "Tax5"   || 
+          sheet.cell(1, 'CE').to_s.strip != "Tax5Per" || sheet.cell(1, 'CF').to_s.strip != "Tax5Amt"   || 
+          sheet.cell(1, 'CG').to_s.strip != "StOnTax4Applicable" || sheet.cell(1, 'CH').to_s.strip != "StOnTax4Per"   || 
+          sheet.cell(1, 'CI').to_s.strip != "StOnTax4Amt"             
+      )    
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end
+  
 end

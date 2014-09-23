@@ -63,4 +63,32 @@ class BillDetailBackup < ActiveRecord::Base
   def self.change_step(from, to)
     unscoped.where(step: from).update_all(step: to)
   end  
+  
+  #["Auto_No", "Serial_No", "Bill_No", "Bill_Date", "Bill_Type", "Outlet", "Code_No", "Description", "Rate", "Qty", 
+  #"Amt", "Excise_Amt", "Taxable", "Excisable", "Discountable", "Quety", "Tax", "Total", "Canceled", "Under", "Add_Qty", "Kot", "KOT_Time", 
+  #"MRP", "SCharge", "ComboParent", "LocationName", "Financial_Year_Name"]
+  
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    begin
+      raise "Please set proper header for bill_detail_backup sheet in excel file" if sheet.last_row > 1 && (
+        sheet.cell(1, 'A').to_s.strip != "Auto_No" || sheet.cell(1, 'B').to_s.strip != "Serial_No" || 
+          sheet.cell(1, 'C').to_s.strip != "Bill_No" || sheet.cell(1, 'D').to_s.strip != "Bill_Date" || sheet.cell(1, 'E').to_s.strip != "Bill_Type" || 
+          sheet.cell(1, 'F').to_s.strip != "Outlet"  || sheet.cell(1, 'G').to_s.strip != "Code_No"   || sheet.cell(1, 'I').to_s.strip != "Rate" || 
+          sheet.cell(1, 'J').to_s.strip != "Qty"     || sheet.cell(1, 'K').to_s.strip != "Amt"       || sheet.cell(1, 'L').to_s.strip != "Excise_Amt" ||
+          sheet.cell(1, 'M').to_s.strip != "Taxable" || sheet.cell(1, 'N').to_s.strip != "Excisable" || sheet.cell(1, 'O').to_s.strip != "Discountable" ||
+          sheet.cell(1, 'P').to_s.strip != "Quety"   || sheet.cell(1, 'Q').to_s.strip != "Tax"       || sheet.cell(1, 'R').to_s.strip != "Total" ||
+          sheet.cell(1, 'S').to_s.strip != "Canceled"|| sheet.cell(1, 'T').to_s.strip != "Under"     || sheet.cell(1, 'U').to_s.strip != "Add_Qty" ||
+          sheet.cell(1, 'V').to_s.strip != "Kot"     || sheet.cell(1, 'W').to_s.strip != "KOT_Time"  || sheet.cell(1, 'X').to_s.strip != "MRP" ||
+          sheet.cell(1, 'Y').to_s.strip != "SCharge" || sheet.cell(1, 'Z').to_s.strip != "ComboParent"|| sheet.cell(1, 'AA').to_s.strip != "LocationName" ||
+          sheet.cell(1, 'AB').to_s.strip != "Financial_Year_Name")         
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end
+
+  
 end

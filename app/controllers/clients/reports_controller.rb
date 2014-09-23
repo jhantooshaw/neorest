@@ -63,9 +63,31 @@ class Clients::ReportsController < ApplicationController
       
       @tot_ser_bills = BillMasterBackup.where("bill_master_backups.location_id = ? #{bill_outlet_query} and bill_master_backups.bill_date between ? and ? and tax4_amount > 0", 
         params[:location_id], params[:start_date], params[:end_date]).select('sum(net_amount) as 
-        tot_ser_taxable_amount').first
+        tot_ser_taxable_amount').first      
+    end
+  end
+  
+  def login
+    if request.xhr?
+      bill_outlet_query = ''
+      if params[:outlet_id].present?
+        bill_outlet_query = "and bill_master_backups.outlet_id=#{params[:outlet_id]}"     
+      end
+      
+      @bills_count = BillMasterBackup.where("bill_master_backups.location_id=? #{bill_outlet_query} and bill_master_backups.bill_date between ? and ?", 
+        params[:location_id].to_i, params[:start_date], params[:end_date]).count  
+      
+      if @bills_count > 0
+        @bills = BillMasterBackup.where("bill_master_backups.location_id=? #{bill_outlet_query} and bill_master_backups.bill_date between ? and ? and modified_name != ''", 
+          params[:location_id].to_i, params[:start_date], params[:end_date]).select('id, bill_date, bill_no, bill_time, actual_amount, user_name, total_amount, modified_time, 
+          settle_time, modified_name').paginate(:page => params[:page])
+      end
       
     end
+  end
+  
+  def void_bills
+    
   end
   
   private

@@ -71,4 +71,30 @@ class CompBillMasterBackup < ActiveRecord::Base
     unscoped.where(step: from).update_all(step: to)
   end
   
+  #["Bill_No", "Table_No", "Bill_Date", "Outlet", "LocationName", "Financial_Year_Name", "Bill_Time", "Wtr_No", "Wtr_Name", "Stew_No", 
+  #"Stew_Name", "Total", "User", "Mod_User", "Mod_Date", "Comment", "Canceled", "Exciseable_Amt", "Excise_Amt", "Covers", "Customer", "Room_No", 
+  #"Hotel_Date"]
+  
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    begin
+      raise "Please set proper header for comp_bill_master_backup sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "Bill_No" ||
+          sheet.cell(1, 'B').to_s.strip != "Table_No" || sheet.cell(1, 'C').to_s.strip != "Bill_Date" || sheet.cell(1, 'D').to_s.strip != "Outlet"   || 
+          sheet.cell(1, 'E').to_s.strip != "LocationName"   || sheet.cell(1, 'F').to_s.strip != "Financial_Year_Name" || sheet.cell(1, 'G').to_s.strip != "Bill_Time"   || 
+          sheet.cell(1, 'H').to_s.strip != "Wtr_No"|| sheet.cell(1, 'I').to_s.strip != "Wtr_Name" || sheet.cell(1, 'J').to_s.strip != "Stew_No"  || 
+          sheet.cell(1, 'K').to_s.strip != "Stew_Name"  || sheet.cell(1, 'L').to_s.strip != "Total" || sheet.cell(1, 'M').to_s.strip != "User" || 
+          sheet.cell(1, 'N').to_s.strip != "Mod_User"      || sheet.cell(1, 'O').to_s.strip != "Mod_Date" || sheet.cell(1, 'P').to_s.strip != "Comment" || 
+          sheet.cell(1, 'Q').to_s.strip != "Canceled"|| sheet.cell(1, 'R').to_s.strip != "Exciseable_Amt" || sheet.cell(1, 'S').to_s.strip != "Excise_Amt" || 
+          sheet.cell(1, 'T').to_s.strip != "Covers" ||  sheet.cell(1, 'U').to_s.strip != "Customer" || sheet.cell(1, 'V').to_s.strip != "Room_No" || 
+          sheet.cell(1, 'W').to_s.strip != "Hotel_Date"           
+      )    
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end
+
+  
 end

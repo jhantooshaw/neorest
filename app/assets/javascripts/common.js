@@ -6,7 +6,7 @@
 
 //$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
 
-$(document).on('ready', function() {
+$(document).on('ready page:load', function() {
 //    setTimeout(function() {
 //        $('.alert').fadeOut('slow');
 //    }, 10000);
@@ -102,6 +102,8 @@ $(document).on('ready', function() {
         }
         $.blockUI({message: '<h4><img src="/assets/loader.gif" alt="" /> Please wait, it will take few minutes...</h4>'});
     });
+
+    
 
 });
 

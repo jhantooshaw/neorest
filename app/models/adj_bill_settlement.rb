@@ -41,7 +41,7 @@ class AdjBillSettlement < ActiveRecord::Base
           tips:           sheet.cell(line, 'M').to_f, 
           room_no:        sheet.cell(line, 'O'), 
           hotel_date:     sheet.cell(line, 'P'), 
-          manager_bit:    sheet.cell(line, 'S').to_s, 
+          manager_bit:    sheet.cell(line, 'Q').to_s, 
           manager_date:   sheet.cell(line, 'R')
         }        
         adj_bill_settlement = AdjBillSettlement.unscoped.where(adj_bill_master_backup_id: adj_bill_master_backup.id, auto_no: auto_no).first_or_initialize                
@@ -56,5 +56,23 @@ class AdjBillSettlement < ActiveRecord::Base
   
   def self.change_step(from, to)
     unscoped.where(step: from).update_all(step: to)
+  end
+  
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    begin
+      raise "Please set proper header for adj_bill_settlement sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "AutoId" ||
+          sheet.cell(1, 'B').to_s.strip != "Bill_Date" || sheet.cell(1, 'C').to_s.strip != "Bill_No" || sheet.cell(1, 'D').to_s.strip != "Bill_Amt"   || 
+          sheet.cell(1, 'E').to_s.strip != "Bill_Type" || sheet.cell(1, 'F').to_s.strip != "Pay_Type"|| sheet.cell(1, 'G').to_s.strip != "Pay_Amt"   || 
+          sheet.cell(1, 'H').to_s.strip != "CC_Name"   || sheet.cell(1, 'I').to_s.strip != "Cashier" || sheet.cell(1, 'J').to_s.strip != "Customer"  || 
+          sheet.cell(1, 'K').to_s.strip != "TableNo"   || sheet.cell(1, 'L').to_s.strip != "Comment" || sheet.cell(1, 'M').to_s.strip != "Tips" || 
+          sheet.cell(1, 'N').to_s.strip != "Outlet"    || sheet.cell(1, 'O').to_s.strip != "Room_No" || sheet.cell(1, 'P').to_s.strip != "Hotel_Date" || 
+          sheet.cell(1, 'Q').to_s.strip != "ManagerBit"|| sheet.cell(1, 'R').to_s.strip != "ManagerDate" ||sheet.cell(1, 'T').to_s.strip != "Financial_Year_Name")      
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
   end
 end
