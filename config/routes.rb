@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   
   constraints(ClientSubdomain) do
     devise_for :clients,  :path_names => {:sign_in => 'login', :sign_out => 'logout' }, :controllers => {:sessions => "clients/sessions", 
-      :registrations => "clients/registrations"}
+      :registrations => "clients/registrations", :passwords => "clients/passwords"}
     
     devise_scope :client do
       get "valid-client/:token" => "clients/sessions#valid_client", :as => :valid_client
@@ -41,10 +41,11 @@ Rails.application.routes.draw do
     end  
   end
   
-  match 'check-subdomain' => 'welcome#check_subdomain', :as => :valid_subdomain, :via => :get
-  match 'get-locations/:id'    => 'welcome#get_locations', :as => :locations, :via => :get
-  match 'get-outlets/:id'    => 'welcome#get_outlets', :as => :outlets, :via => :get
-  match 'get-response'    => 'welcome#get_response', :as => :get_response, :via => :get
+  match 'check-subdomain'   => 'welcome#check_subdomain',   :as => :valid_subdomain, :via => :get
+  match 'check-valid-email' => 'welcome#valid_email',       :as => :valid_email, :via => :get
+  match 'get-locations/:id' => 'welcome#get_locations',     :as => :locations,       :via => :get
+  match 'get-outlets/:id'   => 'welcome#get_outlets',       :as => :outlets,         :via => :get
+  match 'get-response'      => 'welcome#get_response',      :as => :get_response,    :via => :get
   
 
   

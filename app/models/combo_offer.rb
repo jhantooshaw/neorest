@@ -41,4 +41,24 @@ class ComboOffer < ActiveRecord::Base
     end      
     return success, msg
   end  
+
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    # ["ComboCD", "Code_NoCombo", "DescrCombo", "QtyCombo", "Code_NoOffer", "DescrOffer", "QtyOffer", "StartDate", "EndDate", "TempData", "Outlet", "LocationName", "PackageName"]
+
+    begin
+      raise "Please set proper header for combo_offer sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "ComboCD" || 
+          sheet.cell(1, 'B').to_s.strip != "Code_NoCombo" || 
+          sheet.cell(1, 'C').to_s.strip != "DescrCombo" || sheet.cell(1, 'D').to_s.strip != "QtyCombo" || sheet.cell(1, 'E').to_s.strip != "Code_NoOffer" || 
+          sheet.cell(1, 'F').to_s.strip != "DescrOffer"  || sheet.cell(1, 'G').to_s.strip != "QtyOffer"   || sheet.cell(1, 'H').to_s.strip != "StartDate" ||
+          sheet.cell(1, 'I').to_s.strip != "EndDate"  || sheet.cell(1, 'J').to_s.strip != "TempData"   || sheet.cell(1, 'K').to_s.strip != "Outlet" ||
+          sheet.cell(1, 'L').to_s.strip != "LocationName"   || sheet.cell(1, 'M').to_s.strip != "PackageName"
+      )         
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end 
 end

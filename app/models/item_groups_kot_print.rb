@@ -21,4 +21,20 @@ class ItemGroupsKotPrint < ActiveRecord::Base
     end      
     return success, msg
   end  
+  
+  
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    #===========["Group_Name", "LocationName"]
+    begin
+      raise "Please set proper header for item_groups_kot_print sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "Group_Name" || 
+          sheet.cell(1, 'B').to_s.strip != "LocationName" )         
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end 
+
 end

@@ -1,8 +1,8 @@
 <label for="financialyear" class="col-sm-4 control-label" style="font-weight:normal;">Select Location</label>
 <div class="col-sm-5">
-  <%= select_tag "location_id", options_from_collection_for_select(@locations, "id", "name"), :class => "form-control validate[required]" %>
+  <%= select_tag "location_id", options_from_collection_for_select(@f_locations, "id", "name"), :class => "form-control validate[required]" %>
 </div>
-<% if @locations.blank?%>
+<% if @f_locations.blank?%>
   <label for="financialyear" class="col-sm-4 control-label"></label>
   <div class="col-sm-8" style="color:blue;">
     Save location for this financial year first 

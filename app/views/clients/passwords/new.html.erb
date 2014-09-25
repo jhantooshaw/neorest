@@ -1,12 +1,12 @@
-<h2>Forgot your password?</h2>
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: {role: "form", class: "form-signin", id: "formID", method: :post}) do |f| %>
+    <h3 class="form-signin-heading">Forgot your password?</h3>  
+    <%= devise_error_messages! %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
+    <%= f.text_field :email, class: "form-control validate[required, custom[email],ajax[ClientEmail]]", placeholder: "Email address"%>
+      <label></label>
+      <%= f.submit "Send me", class: "btn btn-lg btn-primary btn-block" %>
+      <% end %>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
-
-  <div><%= f.submit "Send me reset password instructions" %></div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+      <div class="form-signin">
+        <%= render "clients/shared/links" %>
+      </div>

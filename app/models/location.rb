@@ -38,7 +38,11 @@ class Location < ActiveRecord::Base
     success =  true
     msg = ""
     begin
-      p "Location Sheet Row: #{sheet.last_row}"
+      $line = 1
+      p "Location Sheet Row: #{sheet.last_row}"      
+      raise "Please set proper header for location sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "LocationName" || 
+          sheet.cell(1, 'B').to_s.strip != "Address" || sheet.cell(1, 'C').to_s.strip != "PhoneNo" || sheet.cell(1, 'D').to_s.strip != "IPAddress" 
+      )       
       2.upto(sheet.last_row) do |line|    
         $line = line
         params = {
@@ -53,5 +57,5 @@ class Location < ActiveRecord::Base
       msg = e.message + " in location at line no #{$line}"
     end      
     return success, msg
-  end  
+  end 
 end

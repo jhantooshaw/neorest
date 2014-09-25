@@ -15,26 +15,35 @@ $(document).on('ready page:load', function() {
 //        get_response();
 //    }, 15000);
 
-    $("#formID, #formImportID, #formSetID").validationEngine();
+    $("#formID, #formImportID, #formSetID, #formImportFinLocID").validationEngine();
     $('.onlyinteger').bind('keypress', function(e) {
         return !(e.which !== 8 && e.which !== 0 &&
                 (e.which < 48 || e.which > 57) && e.which !== 46);
     });
 
-    $("#financial_year_id").on("change", function() {
-        if (!$("#formSetID").validationEngine('validate')) {
+    $("#financial_year_id, #financial_year_ids").on("change", function() {
+        var filed_id = this.id, multiple_type = filed_id === 'financial_year_id' ? false : true;
+        if (filed_id === 'financial_year_id' && !$("#formSetID").validationEngine('validate')) {
             return false;
         }
+
         $.ajax({
             type: "GET",
             url: "/get-locations/" + $(this).val(),
-            dataType: "html"
+            dataType: "html",
+            data: {multiple_type: multiple_type}
         })
                 .fail(function(msg) {
                     alert("Data fail: " + msg);
                 })
                 .done(function(msg) {
-                    $("#location_select").html(msg);
+                    if (filed_id === 'financial_year_id') {
+                        $("#location_select").html(msg);
+                    }
+                    else {
+                        $("#location_selects").html(msg);
+                    }
+
                 });
     });
 
@@ -103,7 +112,14 @@ $(document).on('ready page:load', function() {
         $.blockUI({message: '<h4><img src="/assets/loader.gif" alt="" /> Please wait, it will take few minutes...</h4>'});
     });
 
-    
+    $('.import_fin_loc_button').on('click', function() {
+        if (!$("#formImportFinLocID").validationEngine('validate')) {
+            return false;
+        }
+        $.blockUI({message: '<h4><img src="/assets/loader.gif" alt="" /> Please wait, it will take few minutes...</h4>'});
+    });
+
+
 
 });
 
@@ -126,4 +142,14 @@ function get_response() {
             .done(function(msg) {
                 console.log(msg);
             });
+}
+
+function responsive_table(pagination) {
+    $('.table-responsive').responsiveTable();
+    if (pagination === true) {
+        $('.pagination a').attr('data-remote', 'true');
+        $('.pagination a').on('click', function() {
+            $.blockUI({message: '<h4><img src="/assets/loader.gif" alt="" /> Please wait, it will take few minutes...</h4>'});
+        });
+    }
 }

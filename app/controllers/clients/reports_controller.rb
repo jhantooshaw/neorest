@@ -87,7 +87,13 @@ class Clients::ReportsController < ApplicationController
   end
   
   def void_bills
-    
+    if request.xhr?
+      if params[:outlet_id].present?
+        bill_outlet_query = "and outlet_id=#{params[:outlet_id]}"     
+      end
+      void_bills = VoidBill.where("location_id=? #{bill_outlet_query} and bill_date between ? and ?",params[:location_id].to_i, params[:start_date], params[:end_date])
+      @bills = void_bills.group_by(&:bill_date) 
+    end
   end
   
   private

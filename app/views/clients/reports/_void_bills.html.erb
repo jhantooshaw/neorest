@@ -1,0 +1,59 @@
+<% unless @bills.blank? %>
+  <div class="table-responsive" data-pattern="priority-columns">
+    <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Bill Date</th>
+          <th>Bill No</th>
+          <th data-priority="1">Table No</th>
+          <th data-priority="1">Bill Amt</th>
+          <th data-priority="1">Pay Mode</th>
+          <th data-priority="1">User Bill</th>
+          <th data-priority="1">User Void</th>
+          <th data-priority="1">Bill Time</th>
+          <th data-priority="1">Settle Time</th>
+          <th data-priority="1">Void Time</th>
+          <th data-priority="1">Remarks</th>
+        </tr>
+      </thead>
+      <tbody>          
+        <%@bills.keys.sort.each do |bill_date|%>
+          <% total = 0 %>
+          <tr>            
+            <td>&nbsp;<strong style="margin-left:5%;"><%= date_format(bill_date) %>&nbsp;</strong></td>
+          </tr>
+          <%@bills[bill_date].each do |bill|%>
+            <% total += bill.total %>
+            <tr>
+              <td>&nbsp;</td>
+              <td><%= bill.bill_no %></td>
+              <td><%= bill.table_no %></td>
+              <td><%= bill.total %></td>
+              <td><%= bill.pay_type %></td>
+              <td><%= bill.user_name %></td>
+              <td><%= bill.modified_name %></td>
+              <td><%= time_format(bill.bill_time) %></td>
+              <td><%= bill.settle_time %></td>
+              <td><%= bill.modified_time %></td>
+              <td><%= bill.remarks %></td>
+            </tr>
+          <%end%>
+          <tr>    
+            <td>&nbsp;</td><td>&nbsp;</td><td style="text-align:right;"><strong>Total:</strong></td>
+            <td><strong><%= total %></strong></td>
+            <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+            <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+<%else%>
+  <br/><br/>
+  No Bills Have Been Canceled Between Above Date!!!
+<%end%>
+
+<script type="text/javascript">
+  responsive_table();
+</script>

@@ -51,7 +51,7 @@ module Devise
 
       def after_sign_in_path_for(resource)
         if resource.is_a? Client
-          stored_location_for(resource) || client_root_path
+          stored_location_for(resource) || client_path
         elsif resource.is_a? Consumer
           puts"============current resource #{resource.to_yaml}"
           stored_location_for(resource) || authenticated_consumer_path
@@ -68,6 +68,10 @@ module Devise
         # if resource.is_a? Client
         new_client_session_url
         #  end
+      end
+      
+      def after_resetting_password_path_for(resource)
+        new_client_session_url
       end
 
     end

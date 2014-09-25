@@ -5,7 +5,7 @@ module Clients::ReportsHelper
   end
   
   def time_format(date)
-    date.strftime('%I:%M%p')
+    date.strftime('%I:%M %p')
   end
   
   def change_decimal(value)
@@ -80,7 +80,7 @@ module Clients::ReportsHelper
   end
   
   def get_round_off_amount(table_master, start_date, end_date, outlet_id)
-    tot_round_off = 0
+    tot_round_off = 0.0
     case table_master      
     when 'bill_master_backups'
       bill_outlet_query = " and bill_master_backups.outlet_id= #{outlet_id}"

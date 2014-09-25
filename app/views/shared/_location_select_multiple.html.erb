@@ -1,0 +1,6 @@
+<div class="form-group">  
+  <label for="financialyear" class="col-sm-5 control-label" style="font-weight:normal;">Select Multiple Location(s)</label>
+  <div class="col-sm-7">
+    <%= select_tag "location_ids", options_from_collection_for_select(@locations, "id", "name", @fin_locs.map(&:location_id)), :class => "form-control", multiple: true %>
+  </div>
+</div>

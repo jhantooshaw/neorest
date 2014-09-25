@@ -5,7 +5,6 @@ class Clients::ClientsController < ApplicationController
   def index    
   end
   
-  
   # Import location and financial years first from excel file
   def location_financial_year
     @error = ""  
@@ -14,11 +13,11 @@ class Clients::ClientsController < ApplicationController
       unless params[:location].blank?
         set_original_path(params[:location]) 
         data = Roo::Spreadsheet.open(@original_path)        
-        data.default_sheet = "Location"
+        data.default_sheet = "Location"                
         status = Location.import(data, current_client) unless data.last_row <= 1
         raise status[1] if status [0] == false 
         begin
-          data.default_sheet = "strTable" 
+          data.default_sheet = "strTable"     
           status = Company.import(data, current_client) unless data.last_row <= 1          
         rescue Exception => e          
         end
@@ -27,8 +26,7 @@ class Clients::ClientsController < ApplicationController
       
       unless params[:financial_year].blank? 
         set_original_path(params[:financial_year]) 
-        data = Roo::Spreadsheet.open(@original_path)   
-        
+        data = Roo::Spreadsheet.open(@original_path) 
         data.default_sheet = "Financial_Year"
         status = FinancialYear.import(data, current_client) unless data.last_row <= 1
         raise status[1] if status [0] == false
@@ -41,6 +39,7 @@ class Clients::ClientsController < ApplicationController
     render :index
   end
   
+  # save location with financial year
   def save_location_financial_year
     if params[:location_ids].present? && params[:financial_year_ids].present?
       begin
@@ -69,15 +68,6 @@ class Clients::ClientsController < ApplicationController
     session[:location_id] = params[:location_id]
     flash[:notice] = "Financial Year and Location are set successfully."
     redirect_to client_path
-  end  
-  
-  private
-  def set_original_path(params_file)
-    file_name = params_file.original_filename
-    dest = File.join(Rails.root, "tmp")
-    FileUtils.mkdir_p(dest) unless File.exists?(dest)
-    @original_path = File.join(dest, file_name).to_s
-    File.delete(@original_path) if File.exist?(@original_path)
-    File.open(@original_path, "wb") { |f| f.write(params_file.tempfile.read) }
-  end
+  end 
+
 end

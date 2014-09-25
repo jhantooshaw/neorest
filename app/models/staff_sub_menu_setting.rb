@@ -32,4 +32,21 @@ class StaffSubMenuSetting < ActiveRecord::Base
     return success, msg
   end
   
+  
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    #===========["UNAME", "MNUNAME", "ADD1", "DELETE1", "FIND1", "EDIT1", "Visible", "LocationName"]
+    begin
+      raise "Please set proper header for user_validation sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "UNAME" || 
+          sheet.cell(1, 'B').to_s.strip != "MNUNAME" || 
+          sheet.cell(1, 'C').to_s.strip != "ADD1" || sheet.cell(1, 'D').to_s.strip != "DELETE1" || sheet.cell(1, 'E').to_s.strip != "FIND1" || 
+          sheet.cell(1, 'F').to_s.strip != "EDIT1"  || sheet.cell(1, 'G').to_s.strip != "Visible"   || sheet.cell(1, 'H').to_s.strip != "LocationName")         
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end 
+  
 end

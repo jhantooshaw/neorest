@@ -33,4 +33,23 @@ class Company < ActiveRecord::Base
     end      
     return success, msg
   end
+  
+  
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    #    ===============["AutoId", "CoName", "Add1", "Add2", "Add3", "Add4", "Add5", "PhNo", "Other", "StartDate", "EndDate"]
+    begin
+      raise "Please set proper header for strtable sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "AutoId" || 
+          sheet.cell(1, 'B').to_s.strip != "CoName" || 
+          sheet.cell(1, 'C').to_s.strip != "Add1" || sheet.cell(1, 'D').to_s.strip != "Add2" || sheet.cell(1, 'E').to_s.strip != "Add3" || 
+          sheet.cell(1, 'F').to_s.strip != "Add4"  || sheet.cell(1, 'G').to_s.strip != "Add5"   || sheet.cell(1, 'H').to_s.strip != "PhNo" ||
+          sheet.cell(1, 'I').to_s.strip != "Other"  || sheet.cell(1, 'J').to_s.strip != "StartDate"   || sheet.cell(1, 'K').to_s.strip != "EndDate"
+      )         
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end 
 end

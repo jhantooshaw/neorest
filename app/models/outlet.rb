@@ -39,4 +39,20 @@ class Outlet < ActiveRecord::Base
     end         
     return success, msg
   end
+  
+  
+
+    def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    #["Outlet_Id", "Outlet_Name", "LocationName"]
+    begin
+      raise "Please set proper header for outlet_master sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "Outlet_Id" || 
+          sheet.cell(1, 'B').to_s.strip != "Outlet_Name" || sheet.cell(1, 'C').to_s.strip != "LocationName")         
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end 
 end

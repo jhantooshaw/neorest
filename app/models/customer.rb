@@ -43,5 +43,31 @@ class Customer < ActiveRecord::Base
       msg = e.message + " in customer at line no #{$line}"
     end      
     return success, msg
-  end    
+  end   
+  
+  
+
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    #["Membership_No", "Cust_Name", "Add1", "Add2", "Pin", "Ph1", "Ph2", "Mob", "Fax", "DOB", "Ann", "EntryDate", "Email", "DisPer", "Outlet", "LocationName",
+    #"OrderDate", "Remarks", "Membership_No_Manual", "CardNo"]
+
+    begin
+      raise "Please set proper header for cust_detail sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "Membership_No" || 
+          sheet.cell(1, 'B').to_s.strip != "Cust_Name" || 
+          sheet.cell(1, 'C').to_s.strip != "Add1" || sheet.cell(1, 'D').to_s.strip != "Add2" || sheet.cell(1, 'E').to_s.strip != "Pin" || 
+          sheet.cell(1, 'F').to_s.strip != "Ph1"  || sheet.cell(1, 'G').to_s.strip != "Ph2"   || sheet.cell(1, 'H').to_s.strip != "Mob" ||
+          sheet.cell(1, 'I').to_s.strip != "Fax"  || sheet.cell(1, 'J').to_s.strip != "DOB"   || sheet.cell(1, 'K').to_s.strip != "Ann" ||
+          sheet.cell(1, 'L').to_s.strip != "EntryDate"   || sheet.cell(1, 'M').to_s.strip != "Email" || 
+          sheet.cell(1, 'N').to_s.strip != "DisPer"  || sheet.cell(1, 'O').to_s.strip != "Outlet"   || sheet.cell(1, 'P').to_s.strip != "LocationName" ||
+          sheet.cell(1, 'Q').to_s.strip != "OrderDate"   || sheet.cell(1, 'R').to_s.strip != "Remarks" ||
+          sheet.cell(1, 'S').to_s.strip != "Membership_No_Manual"   || sheet.cell(1, 'T').to_s.strip != "CardNo"
+      )         
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end 
 end

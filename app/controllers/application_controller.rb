@@ -71,6 +71,16 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  private
+  def set_original_path(params_file)
+    file_name = params_file.original_filename
+    dest = File.join(Rails.root, "tmp")
+    FileUtils.mkdir_p(dest) unless File.exists?(dest)
+    @original_path = File.join(dest, file_name).to_s
+    File.delete(@original_path) if File.exist?(@original_path)
+    File.open(@original_path, "wb") { |f| f.write(params_file.tempfile.read) }
+  end
+  
   
     
 end

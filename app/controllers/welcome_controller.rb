@@ -1,6 +1,7 @@
 class WelcomeController < ApplicationController
   #before_action :authenticate_client!
   
+  before_action  :retrieve_data, only: [:get_locations] 
   
   def index
     redirect_to new_client_session_path
@@ -21,11 +22,31 @@ class WelcomeController < ApplicationController
     end
   end 
   
+  # check valid email
+  def valid_email
+    name = params[:fieldValue]
+    if name.strip == ""
+      render :json => { :available => false }
+      return
+    end
+    user = Client.where(:email => name.downcase).first
+    if user.blank?
+      render :json =>  ["client_email", false , ""]
+    else
+      render :json =>  ["client_email", true , ""]
+    end
+  end 
+  
   # get all location for particular financial year
   def get_locations
     @f_year = FinancialYear.find(params[:id])
-    @locations = @f_year.locations.select("id,name")
-    render partial: "shared/location_select"
+    @f_locations = @f_year.locations.select("id,name")
+    if params[:multiple_type] == true || params[:multiple_type] == 'true'
+      @fin_locs = @f_year.financial_years_locations
+      render partial: "shared/location_select_multiple"
+    else
+      render partial: "shared/location_select"
+    end    
   end
   
   # get all outlets for particular location
@@ -36,6 +57,6 @@ class WelcomeController < ApplicationController
   end
   
   def get_response   
-   render :json => { :txt => 'OK' }
+    render :json => { :txt => 'OK' }
   end
 end

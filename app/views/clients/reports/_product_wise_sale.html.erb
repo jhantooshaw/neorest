@@ -55,11 +55,5 @@
   <%end%>
 
   <script type="text/javascript">
-    $(function() {
-      $('.table-responsive').responsiveTable();
-      $('.pagination a').attr('data-remote', 'true');
-      $('.pagination a').on('click', function() {
-        $.blockUI({message: '<h4><img src="/assets/loader.gif" alt="" /> Please wait, it will take few minutes...</h4>'});
-      });
-    });
+    responsive_table(true);
   </script>

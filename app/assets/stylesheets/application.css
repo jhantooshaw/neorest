@@ -31,7 +31,7 @@ body {
 .field_with_errors {
     padding: 2px;
     background-color: red;
-    display: table;
+    /*display: table;*/
 }
 
 #loading-indicator {
@@ -74,4 +74,8 @@ body {
 
 h2{
     margin-top: 0px;
+}
+
+#error_explanation{
+    color: red;
 }

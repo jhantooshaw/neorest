@@ -47,9 +47,9 @@ class CreateBillMasters < ActiveRecord::Migration
       t.float            :non_taxable_amount
       t.float            :exciseable_amount
       t.string           :pay_type
-      t.integer          :user_id         # find user
-      t.string           :user_name
-      t.integer          :modified_by     # find user
+      t.integer          :staff_id         # find staff
+      t.string           :staff_name
+      t.integer          :modified_by     # find staff
       t.string           :modified_name
       t.datetime         :modified_date
       t.string           :modified_time

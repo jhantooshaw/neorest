@@ -18,10 +18,10 @@
               <th><%= item_group.ig_name %></th>                  
               <%(0...@p_outlets.count).each do |i|%>
                 <% a = get_net_food_global_group(item_group.id, '', 'bill_detail_backups', 'bill_master_backups', @p_outlets[i].id)%>
-                <th> <%= a[2] %></th>
+                <th> <%= change_decimal(a[2]) %></th>
                 <% left_total += a[2]%>
               <%end%>                    
-              <th><%= left_total %></th>  
+              <th><%= change_decimal(left_total) %></th>  
             </tr>
           <%end%>
 
@@ -205,7 +205,7 @@
             <th>Credit Card</th>
             <%left_total = 0%>
             <%(0...@p_outlets.count).each do |i|%>
-              <% a = get_sale( params[:start_date], params[:end_date], @p_outlets[i].id, 'CC')%>
+              <% a = get_sale(params[:start_date], params[:end_date], @p_outlets[i].id, 'CC')%>
               <th> <%= a %></th>
               <% left_total += a%>
             <%end%>
@@ -257,7 +257,7 @@
             <th>Total</th>
             <%(0...@p_outlets.count).each do |i|%>
               <%row_total = 0%>
-              <th>dddd</th>
+              <th>coming soon</th>
             <%end%>
 
 

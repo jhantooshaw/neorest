@@ -24,4 +24,20 @@ class CreditCard < ActiveRecord::Base
     end      
     return success, msg
   end  
+  
+ 
+  
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    #["CreditCard_Name", "Commision_Amt", "LocationName"]
+    begin
+      raise "Please set proper header for CreditCard_Master sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "CreditCard_Name" || 
+          sheet.cell(1, 'B').to_s.strip != "Commision_Amt" || sheet.cell(1, 'C').to_s.strip != "LocationName")         
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end 
 end

@@ -28,8 +28,10 @@ class BillMasterBackup < ActiveRecord::Base
         fin_year_name = sheet.cell(line, 'G')
         fin_year      = location.financial_years.where(name: fin_year_name).first
         raise "Financial Year #{fin_year_name} is not found into database" if fin_year.blank?        
-        waiter_id    = sheet.cell(line, 'I').to_i unless sheet.cell(line, 'I').blank?
-        steward_id   = sheet.cell(line, 'K').to_i if sheet.cell(line, 'K').present? && sheet.cell(line, 'K').to_i != 0
+        waiter       = location.waiters.where(w_no: sheet.cell(line, 'I').to_i).first if sheet.cell(line, 'I').present? && sheet.cell(line, 'I').to_i != 0
+        steward      = location.waiters.where(s_no: sheet.cell(line, 'K').to_i).first if sheet.cell(line, 'K').present? && sheet.cell(line, 'K').to_i != 0
+        staff        = location.staff.where(name: sheet.cell(line, 'AQ')).first unless sheet.cell(line, 'AQ').blank?       
+        staff_mod    = location.staff.where(name: sheet.cell(line, 'AR')).first unless sheet.cell(line, 'AR').blank?  
         customer     = location.customers.where(c_name: sheet.cell(line, 'AX')).first unless sheet.cell(line, 'AX').blank?       
         
         bill_no      = sheet.cell(line, 'A').to_i
@@ -117,8 +119,8 @@ class BillMasterBackup < ActiveRecord::Base
           stontax4:        sheet.cell(line, 'CG') == 'false' ? false : true,
           stontax4_per:    sheet.cell(line, 'CH').to_f,
           stontax4_amount: sheet.cell(line, 'CI').to_f,
-          waiter_id:       waiter_id.present?  ? waiter_id  : nil,        
-          steward_id:      steward_id.present? ? steward_id : nil        
+          waiter_id:       waiter.present?  ? waiter.id  : nil,        
+          steward_id:      steward.present? ? steward.id : nil         
         }
         
         bill_master_backup = BillMasterBackup.unscoped.where(location_id: location.id, outlet_id: outlet.id, financial_year_id: fin_year.id, bill_no: bill_no,

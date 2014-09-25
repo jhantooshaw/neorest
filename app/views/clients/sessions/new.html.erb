@@ -1,14 +1,14 @@
-<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {role: "form", class: "form-signin"}) do |f| %>
+<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {role: "form", class: "form-signin", id: "formID"}) do |f| %>
     <h2 class="form-signin-heading">Please sign in</h2>  
-    <%= f.email_field :email, autofocus: true, placeholder: "Email address", class: "form-control", required: "required"%>
-      <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control", required: "required"%>
+    <%= f.email_field :email, autofocus: true, placeholder: "Email address", class: "form-control validate[required, custom[email]]"%>
+      <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control validate[required]"%>
 
         <% if devise_mapping.rememberable? -%>
           <label class="checkbox">
             <%= f.check_box :remember_me %> Remember me
           </label>
         <% end -%>
-        <%= f.submit "Sign in", class: "btn btn-lg btn-primary btn-block"  %>
+        <%= f.submit "Sign in", class: "btn btn-lg btn-primary btn-block" %>
         <% end %>
         <div class="form-signin">
           <%= render "clients/shared/links" %>

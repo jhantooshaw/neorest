@@ -26,9 +26,11 @@ class CompBillMasterBackup < ActiveRecord::Base
         raise "Outlet #{outlet_name} is not found into database" if outlet.blank?
         fin_year_name = sheet.cell(line, 'F')
         fin_year      = location.financial_years.where(name: fin_year_name).first
-        raise "Financial Year #{fin_year_name} is not found into database" if fin_year.blank?        
-        waiter_id    = sheet.cell(line, 'H').to_i unless sheet.cell(line, 'H').blank?
-        steward_id   = sheet.cell(line, 'J').to_i if sheet.cell(line, 'J').present? && sheet.cell(line, 'J').to_i != 0
+        raise "Financial Year #{fin_year_name} is not found into database" if fin_year.blank?       
+        waiter       = location.waiters.where(w_no: sheet.cell(line, 'H').to_i).first if sheet.cell(line, 'H').present? && sheet.cell(line, 'H').to_i != 0
+        steward      = location.waiters.where(s_no: sheet.cell(line, 'J').to_i).first if sheet.cell(line, 'J').present? && sheet.cell(line, 'J').to_i != 0
+        staff        = location.staff.where(name: sheet.cell(line, 'M')).first unless sheet.cell(line, 'M').blank?       
+        staff_mod    = location.staff.where(name: sheet.cell(line, 'N')).first unless sheet.cell(line, 'N').blank?  
         customer     = location.customers.where(c_name: sheet.cell(line, 'U')).first unless sheet.cell(line, 'U').blank?       
         
         bill_no      = sheet.cell(line, 'A').to_i
@@ -52,8 +54,8 @@ class CompBillMasterBackup < ActiveRecord::Base
           customer_name:   sheet.cell(line, 'U'),
           room_no:         sheet.cell(line, 'V'),
           hotel_date:      sheet.cell(line, 'W'),
-          waiter_id:       waiter_id.present?  ? waiter_id  : nil,        
-          steward_id:      steward_id.present? ? steward_id : nil  
+          waiter_id:       waiter.present?  ? waiter.id  : nil,        
+          steward_id:      steward.present? ? steward.id : nil 
         }
         
         comp_bill_master_backup = CompBillMasterBackup.unscoped.where(location_id: location.id, outlet_id: outlet.id, financial_year_id: fin_year.id, bill_no: bill_no,

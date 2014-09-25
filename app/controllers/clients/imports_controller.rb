@@ -11,7 +11,76 @@ class Clients::ImportsController < ApplicationController
         raise "Please attach an excel file for import master tables" if params[:import_file].blank?  
         status = ""
         set_original_path(params[:import_file])     
-        data = Roo::Spreadsheet.open(@original_path)        
+        data = Roo::Spreadsheet.open(@original_path)          
+        data.each_with_pagename do |name, sheet|
+          table_name = name.downcase
+          case table_name
+          when "bill_footer_setting" 
+            status = FooterSetting.checked_attributes(sheet)
+            raise status[1] if status [0] == false 
+          when "bill_group" 
+            status = BillGroup.checked_attributes(sheet)
+            raise status[1] if status [0] == false 
+          when "combooffer"           
+            status = ComboOffer.checked_attributes(sheet)
+            raise status[1] if status [0] == false 
+          when "creditcard_master"            
+            status = CreditCard.checked_attributes(sheet)
+            raise status[1] if status [0] == false   
+          when "cust_detail"
+            status = Customer.checked_attributes(sheet)
+            raise status[1] if status [0] == false 
+          when "item_groups" 
+            status = ItemGroup.checked_attributes(sheet)
+            raise status[1] if status [0] == false 
+          when "item_groups_kot_print"  
+            status = ItemGroupsKotPrint.checked_attributes(sheet)
+            raise status[1] if status [0] == false 
+          when "item_sub_group"                                
+            status = ItemSubGroup.checked_attributes(sheet)
+            raise status[1] if status [0] == false 
+          when "items"            
+            status = Item.checked_attributes(sheet)
+            raise status[1] if status [0] == false 
+          when "table_master"
+            status = Table.checked_attributes(sheet)
+            raise status[1] if status [0] == false 
+          when "settings"          
+            status = Setting.checked_attributes(sheet)
+            raise status[1] if status [0] == false   
+          when "remarksmaster"
+            status = RemarkMaster.checked_attributes(sheet)
+            raise status[1] if status [0] == false  
+          when "table_section" 
+            status = TableSection.checked_attributes(sheet)
+            raise status[1] if status [0] == false  
+          when "tax"
+            status = Tax.checked_attributes(sheet)
+            raise status[1] if status [0] == false              
+          when "user_validation"   
+            status = StaffSubMenuSetting.checked_attributes(sheet)
+            raise status[1] if status [0] == false  
+          when "usermainmenu"    
+            status = StaffMenuSetting.checked_attributes(sheet)
+            raise status[1] if status [0] == false                        
+          when "waiter" 
+            status = Waiter.checked_attributes(sheet)
+            raise status[1] if status [0] == false  
+          when "outlet_master" 
+            status = Outlet.checked_attributes(sheet)
+            raise status[1] if status [0] == false  
+          when "combopackage" 
+            status = ComboPackage.checked_attributes(sheet)
+            raise status[1] if status [0] == false  
+          when "user_master" 
+            status = Staff.checked_attributes(sheet)
+            raise status[1] if status [0] == false  
+          when "strtable" 
+            status = Company.checked_attributes(sheet)
+            raise status[1] if status [0] == false  
+          end          
+        end        
+        
         begin
           data.default_sheet = "Outlet_Master"
           status = Outlet.import(data, current_location)
@@ -75,10 +144,7 @@ class Clients::ImportsController < ApplicationController
             raise status[1] if status [0] == false   
           when "remarksmaster"
             status = RemarkMaster.import(sheet, current_location) unless sheet.last_row <= 1
-            raise status[1] if status [0] == false  
-          when "table_section"
-            status = TableSection.import(sheet, current_location) unless sheet.last_row <= 1
-            raise status[1] if status [0] == false  
+            raise status[1] if status [0] == false
           when "tax"
             status = Tax.import(sheet, current_location) unless sheet.last_row <= 1
             raise status[1] if status [0] == false              
@@ -91,6 +157,9 @@ class Clients::ImportsController < ApplicationController
           when "waiter"  
             status = Waiter.import(sheet, current_location) unless sheet.last_row <= 1
             raise status[1] if status [0] == false  
+          when "strtable"  
+            status = Company.import(sheet, current_client) unless sheet.last_row <= 1
+            raise status[1] if status [0] == false             
           end          
         end
         flash[:notice] = "Master data is imported successfully."
@@ -237,15 +306,5 @@ class Clients::ImportsController < ApplicationController
       render :transaction
     end
     
-  end
-  
-  private
-  def set_original_path(params_file)
-    file_name = params_file.original_filename
-    dest = File.join(Rails.root, "tmp")
-    FileUtils.mkdir_p(dest) unless File.exists?(dest)
-    @original_path = File.join(dest, file_name).to_s
-    File.delete(@original_path) if File.exist?(@original_path)
-    File.open(@original_path, "wb") { |f| f.write(params_file.tempfile.read) }
   end
 end

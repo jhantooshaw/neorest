@@ -18,5 +18,20 @@ class BillGroup < ActiveRecord::Base
       msg = e.message + " in bill group at line no #{$line}"
     end      
     return success, msg
-  end  
+  end 
+
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    #=["AutoId", "BillGroupName", "LocationName"]
+
+    begin
+      raise "Please set proper header for bill_group sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "AutoId" || 
+          sheet.cell(1, 'B').to_s.strip != "BillGroupName" || sheet.cell(1, 'C').to_s.strip != "LocationName")         
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end 
 end

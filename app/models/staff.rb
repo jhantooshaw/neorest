@@ -31,7 +31,21 @@ class Staff < ActiveRecord::Base
       msg = e.message + " in user master at line no #{$line}"
     end      
     return success, msg
-  end
+  end  
+
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    #  ===========["User_Name", "Password1", "Outlet", "LocationName"]
+    begin
+      raise "Please set proper header for user_master sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "User_Name" || 
+          sheet.cell(1, 'B').to_s.strip != "Password1" || sheet.cell(1, 'C').to_s.strip != "Outlet" || sheet.cell(1, 'D').to_s.strip != "LocationName")         
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end 
   
   def encrypt_password
     self.encrypted_password = password_digest(encrypted_password)

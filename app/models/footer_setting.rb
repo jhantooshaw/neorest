@@ -32,4 +32,21 @@ class FooterSetting < ActiveRecord::Base
     end
     return success, msg
   end  
+  
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+   # ["AutoId", "Bill_Header", "Bill_Footer1", "Bill_Footer2", "Bill_Footer3", "Bill_Footer4", "Outlet", "LocationName"]
+
+    begin
+      raise "Please set proper header for bill_footer_setting sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "AutoId" || 
+          sheet.cell(1, 'B').to_s.strip != "Bill_Header" || 
+          sheet.cell(1, 'C').to_s.strip != "Bill_Footer1" || sheet.cell(1, 'D').to_s.strip != "Bill_Footer2" || sheet.cell(1, 'E').to_s.strip != "Bill_Footer3" || 
+          sheet.cell(1, 'F').to_s.strip != "Bill_Footer4"  || sheet.cell(1, 'G').to_s.strip != "Outlet"   || sheet.cell(1, 'H').to_s.strip != "LocationName")         
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end 
 end

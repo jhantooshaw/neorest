@@ -27,10 +27,12 @@ class AdjBillMasterBackup < ActiveRecord::Base
         raise "Outlet #{outlet_name} is not found into database" if outlet.blank?
         fin_year_name = sheet.cell(line, 'G')
         fin_year      = location.financial_years.where(name: fin_year_name).first
-        raise "Financial Year #{fin_year_name} is not found into database" if fin_year.blank?        
-        waiter_id    = sheet.cell(line, 'I').to_i unless sheet.cell(line, 'I').blank?
-        steward_id   = sheet.cell(line, 'K').to_i if sheet.cell(line, 'K').present? && sheet.cell(line, 'K').to_i != 0
-        customer     = location.customers.where(c_name: sheet.cell(line, 'AX')).first unless sheet.cell(line, 'AX').blank?       
+        raise "Financial Year #{fin_year_name} is not found into database" if fin_year.blank?
+        waiter       = location.waiters.where(w_no: sheet.cell(line, 'I').to_i).first if sheet.cell(line, 'I').present? && sheet.cell(line, 'I').to_i != 0
+        steward      = location.waiters.where(s_no: sheet.cell(line, 'K').to_i).first if sheet.cell(line, 'K').present? && sheet.cell(line, 'K').to_i != 0
+        staff        = location.staff.where(name: sheet.cell(line, 'AQ')).first unless sheet.cell(line, 'AQ').blank?       
+        staff_mod    = location.staff.where(name: sheet.cell(line, 'AR')).first unless sheet.cell(line, 'AR').blank?       
+        customer     = location.customers.where(c_name: sheet.cell(line, 'AX')).first unless sheet.cell(line, 'AX').blank?      
         
         bill_no      = sheet.cell(line, 'A').to_i
         bill_date    = sheet.cell(line, 'C')
@@ -70,9 +72,9 @@ class AdjBillMasterBackup < ActiveRecord::Base
           non_taxable_amount: sheet.cell(line, 'AN').to_f,
           exciseable_amount:  sheet.cell(line, 'AO').to_f,
           pay_type:        sheet.cell(line, 'AP'),
-          user_id:         0,
+          user_id:         staff.present?  ? staff.id  : nil, 
           user_name:       sheet.cell(line, 'AQ'),         
-          modified_by:     0, # sheet.cell(line, 'AR'),
+          modified_by:     staff_mod.present?  ? staff.id  : nil,
           modified_name:   sheet.cell(line, 'AR'),
           modified_date:   sheet.cell(line, 'AS').present? ? Date.strptime(sheet.cell(line, 'AS'), '%m/%d/%Y') : nil,
           modified_time:   sheet.cell(line, 'AT'),
@@ -105,21 +107,21 @@ class AdjBillMasterBackup < ActiveRecord::Base
           hotel_date:      sheet.cell(line, 'BT'),
           banquet:         sheet.cell(line, 'BU'),
           out_time:        sheet.cell(line, 'BV'),          
-          rate_incd_of_tax1:      sheet.cell(line, 'BW') == 'false' ? false : true, 
-          tax_cal_after_dis:      sheet.cell(line, 'BX'),
-          rate_incd_of_stax:      sheet.cell(line, 'BY') == 'false' ? false : true, 
+          rate_incd_of_tax1: sheet.cell(line, 'BW') == 'false' ? false : true, 
+          tax_cal_after_dis: sheet.cell(line, 'BX'),
+          rate_incd_of_stax: sheet.cell(line, 'BY') == 'false' ? false : true, 
           service_tax_applicable: sheet.cell(line, 'BZ') == 'false' ? false : true, 
           abatement:       sheet.cell(line, 'CA').to_f,
-          tax1_cal_last:          sheet.cell(line, 'CB') == 'false' ? false : true, 
+          tax1_cal_last:   sheet.cell(line, 'CB') == 'false' ? false : true, 
           linked_financial_year:  sheet.cell(line, 'CC'),          
           tax5:            sheet.cell(line, 'CD'),
           tax5_per:        sheet.cell(line, 'CE').to_f,
           tax5_amount:     sheet.cell(line, 'CF').to_f,          
-          stontax4:               sheet.cell(line, 'CG') == 'false' ? false : true,
+          stontax4:        sheet.cell(line, 'CG') == 'false' ? false : true,
           stontax4_per:    sheet.cell(line, 'CH').to_f,
           stontax4_amount: sheet.cell(line, 'CI').to_f,
-          waiter_id:       waiter_id.present?  ? waiter_id  : nil,        
-          steward_id:      steward_id.present? ? steward_id : nil        
+          waiter_id:       waiter.present?  ? waiter.id  : nil,        
+          steward_id:      steward.present? ? steward.id : nil        
         }
         
         adj_bill_master_backup = AdjBillMasterBackup.unscoped.where(location_id: location.id, outlet_id: outlet.id, financial_year_id: fin_year.id, bill_no: bill_no,

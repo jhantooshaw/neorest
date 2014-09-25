@@ -102,5 +102,60 @@ class Setting < ActiveRecord::Base
       msg = e.message + " in setting at line no #{$line}"
     end
     return success, msg
-  end   
+  end
+  
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    #["CoName", "LocationName", "Outlet", "KOT_Print", "Settlement_Print", "Cut_File", "Waiter", "Steward", "BillNoCont", "KOTNoAuto", "BillPrintDos", "BillWidth",
+    # "BottomMargin", "BillCopies", "RemarksItem", "Cancel_KOT_Print", "PAX", "BarFoodBillNoSep", "KOTCopies", "RateToPrintInBill", "Local_KOT_Print", "Single_Lan_KOT_Print", 
+    # "Cash_Drawer_File", "Multiple_Outlet", "HotelLink", "BillPage", "KOTPrint", "UserPrint", "SaveKOTSamePage", "DSN", "LocalComp", "RemoteComp", "KOTPrintGroupBlank", 
+    # "WaiterFixed", "MenuOutletWise", "FirstQtyThenCode", "WaiterCommonForOutlet", "UserCommonForOutlet", "WarningMsgDate", "DeliverySettlementPage", "MulipleLocation", 
+    # "AutoEmail", "SenderEmail", "ReceiverEmail", "SaveBillInText", "FilePath", "ComboOfferReverse", "LogoPrint", "TimePrint", "BillNoSepearteOfOutlets", "SettlementTogether", 
+    # "UpdateInv", "BarAlais", "FoodAlias", "TouchScreen", "CoNamePrn", "AddPrintKOT", "EstablishmentCharge", "EstablishmentOn", "EstablishmentPer", "StubPrint", "AmtInCompBill", 
+    # "UserPrintKOT", "TimePrintKOT", "SaveTime", "MRPnEstShowInBarBill", "PPforPC", "POPforMIC", "InSaToDeductTax2Inc", "WinBillLine2", "CardSwipe", "CoNo", "LocationNo", 
+    # "BillWinPrintType", "MrpBillType", "PortName"]
+
+    begin
+      raise "Please set proper header for cust_detail sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "CoName" || 
+          sheet.cell(1, 'B').to_s.strip != "LocationName" || 
+          sheet.cell(1, 'C').to_s.strip != "Outlet" || sheet.cell(1, 'D').to_s.strip != "KOT_Print" || sheet.cell(1, 'E').to_s.strip != "Settlement_Print" || 
+          sheet.cell(1, 'F').to_s.strip != "Cut_File"  || sheet.cell(1, 'G').to_s.strip != "Waiter"   || sheet.cell(1, 'H').to_s.strip != "Steward" ||
+          sheet.cell(1, 'I').to_s.strip != "BillNoCont"  || sheet.cell(1, 'J').to_s.strip != "KOTNoAuto"   || sheet.cell(1, 'K').to_s.strip != "BillPrintDos" ||
+          sheet.cell(1, 'L').to_s.strip != "BillWidth"   || sheet.cell(1, 'M').to_s.strip != "BottomMargin" || 
+          sheet.cell(1, 'N').to_s.strip != "BillCopies"  || sheet.cell(1, 'O').to_s.strip != "RemarksItem"   || sheet.cell(1, 'P').to_s.strip != "Cancel_KOT_Print" ||
+          sheet.cell(1, 'Q').to_s.strip != "PAX"   || sheet.cell(1, 'R').to_s.strip != "BarFoodBillNoSep" ||
+          sheet.cell(1, 'S').to_s.strip != "KOTCopies"   || sheet.cell(1, 'T').to_s.strip != "RateToPrintInBill"||          
+          sheet.cell(1, 'U').to_s.strip != "Local_KOT_Print"   || sheet.cell(1, 'V').to_s.strip != "Single_Lan_KOT_Print" ||
+          sheet.cell(1, 'W').to_s.strip != "Cash_Drawer_File"   || sheet.cell(1, 'X').to_s.strip != "Multiple_Outlet" ||
+          sheet.cell(1, 'Y').to_s.strip != "HotelLink"   || sheet.cell(1, 'Z').to_s.strip != "BillPage" ||
+          sheet.cell(1, 'AA').to_s.strip != "KOTPrint"   || sheet.cell(1, 'AB').to_s.strip != "UserPrint" ||         
+          sheet.cell(1, 'AC').to_s.strip != "SaveKOTSamePage" || sheet.cell(1, 'AD').to_s.strip != "DSN" || sheet.cell(1, 'AE').to_s.strip != "LocalComp" || 
+          sheet.cell(1, 'AF').to_s.strip != "RemoteComp"  || sheet.cell(1, 'AG').to_s.strip != "KOTPrintGroupBlank"   || sheet.cell(1, 'AH').to_s.strip != "WaiterFixed" ||
+          sheet.cell(1, 'AI').to_s.strip != "MenuOutletWise"  || sheet.cell(1, 'AJ').to_s.strip != "FirstQtyThenCode"   || sheet.cell(1, 'AK').to_s.strip != "WaiterCommonForOutlet" ||
+          sheet.cell(1, 'AL').to_s.strip != "UserCommonForOutlet"   || sheet.cell(1, 'AM').to_s.strip != "WarningMsgDate" || 
+          sheet.cell(1, 'AN').to_s.strip != "DeliverySettlementPage"  || sheet.cell(1, 'AO').to_s.strip != "MulipleLocation"   || sheet.cell(1, 'AP').to_s.strip != "AutoEmail" ||
+          sheet.cell(1, 'AQ').to_s.strip != "SenderEmail"   || sheet.cell(1, 'AR').to_s.strip != "ReceiverEmail" ||
+          sheet.cell(1, 'AS').to_s.strip != "SaveBillInText"   || sheet.cell(1, 'AT').to_s.strip != "FilePath"||          
+          sheet.cell(1, 'AU').to_s.strip != "ComboOfferReverse"   || sheet.cell(1, 'AV').to_s.strip != "LogoPrint" ||
+          sheet.cell(1, 'AW').to_s.strip != "TimePrint"   || sheet.cell(1, 'AX').to_s.strip != "BillNoSepearteOfOutlets"||
+          sheet.cell(1, 'AY').to_s.strip != "SettlementTogether"   || sheet.cell(1, 'AZ').to_s.strip != "UpdateInv" ||          
+          sheet.cell(1, 'BA').to_s.strip != "BarAlais"   || sheet.cell(1, 'BB').to_s.strip != "FoodAlias" ||          
+          sheet.cell(1, 'BC').to_s.strip != "TouchScreen" || sheet.cell(1, 'BD').to_s.strip != "CoNamePrn" || sheet.cell(1, 'BE').to_s.strip != "AddPrintKOT" || 
+          sheet.cell(1, 'BF').to_s.strip != "EstablishmentCharge"  || sheet.cell(1, 'BG').to_s.strip != "EstablishmentOn"   || sheet.cell(1, 'BH').to_s.strip != "EstablishmentPer" ||
+          sheet.cell(1, 'BI').to_s.strip != "StubPrint"  || sheet.cell(1, 'BJ').to_s.strip != "AmtInCompBill"   || sheet.cell(1, 'BK').to_s.strip != "UserPrintKOT" ||
+          sheet.cell(1, 'BL').to_s.strip != "TimePrintKOT"   || sheet.cell(1, 'BM').to_s.strip != "SaveTime" || 
+          sheet.cell(1, 'BN').to_s.strip != "MRPnEstShowInBarBill"  || sheet.cell(1, 'BO').to_s.strip != "PPforPC"   || sheet.cell(1, 'BP').to_s.strip != "POPforMIC" ||
+          sheet.cell(1, 'BQ').to_s.strip != "InSaToDeductTax2Inc"   || sheet.cell(1, 'BR').to_s.strip != "WinBillLine2" ||
+          sheet.cell(1, 'BS').to_s.strip != "CardSwipe" || sheet.cell(1, 'BT').to_s.strip != "CoNo"||          
+          sheet.cell(1, 'BU').to_s.strip != "LocationNo" || sheet.cell(1, 'BV').to_s.strip != "BillWinPrintType" ||
+          sheet.cell(1, 'BW').to_s.strip != "MrpBillType" || sheet.cell(1, 'BX').to_s.strip != "PortName"
+      )         
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end 
+  
 end
