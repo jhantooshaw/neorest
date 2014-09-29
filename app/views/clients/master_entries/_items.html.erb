@@ -1,0 +1,67 @@
+<% unless @entries.blank? %>
+  <div class="table-responsive" data-pattern="priority-columns">
+    <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+      <thead>
+        <tr>
+          <th data-priority="1">Code No</th>
+          <th>Outlet</th>
+          <th>Description</th>
+          <th data-priority="1">Alias</th>
+          <th>Rate</th>
+          <th data-priority="1">Rate2</th>
+          <th data-priority="1">MRP</th>          
+          <th data-priority="1">Taxable</th>
+          <th data-priority="1">Excisable</th>
+          <th data-priority="1">Discountable</th>
+          <th data-priority="1">Disable</th>
+          <th data-priority="1">D sale</th>
+          <th data-priority="1">S Value</th>
+          <th data-priority="1">Bill Group</th>
+          <th data-priority="1">Group</th>
+          <th data-priority="1">Sub Group</th>
+          <th data-priority="1">Group Kot</th>
+          <th data-priority="1">Kot Printer</th>
+          <th data-priority="1">Special?</th>
+          <th data-priority="1">Service Charge</th>
+          <th data-priority="1">Under</th>
+        </tr>
+      </thead>
+      <tbody>          
+        <%@entries.each do |entry|%>
+          <tr>
+            <td><%= entry.code_no%></td>
+            <td><%= entry.outlet.name%></td>
+            <td><%= entry.description%></td>
+            <td><%= entry.i_alias%></td>
+            <td><%= entry.rate%></td>
+            <td><%= entry.rate2%></td>
+            <td><%= entry.mrp%></td>
+            <td><%= entry.is_taxable%></td>
+            <td><%= entry.excisable%></td>
+            <td><%= entry.discountable%></td>
+            <td><%= entry.disable%></td>
+            <td><%= entry.dsale%></td>
+            <td><%= entry.svalue%></td>
+            <td><%= entry.bill_group.name if entry.bill_group%></td>
+            <td><%= entry.item_group.ig_name if entry.item_group%></td>
+            <td><%= entry.item_sub_group.isg_name if entry.item_sub_group%></td>
+            <td><%= entry.item_groups_kot_print.name if entry.item_groups_kot_print%></td>
+            <td><%= entry.kot_printer%></td>
+            <td><%= entry.is_special%></td>
+            <td><%= entry.service_charge%></td>
+            <td><%= entry.under%></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="" style="text-align:center;">
+    <%= will_paginate @entries, params: {location_id: params[:location_id], outlet_id: params[:outlet_id]}, class: 'pagination-sm', renderer: BootstrapPagination::Rails %>
+    </div>
+  <%else%>    
+    No Item Found!!!
+  <%end%>
+  <script type="text/javascript">
+    responsive_table(true);
+  </script>

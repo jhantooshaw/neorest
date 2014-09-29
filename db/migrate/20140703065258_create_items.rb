@@ -19,7 +19,7 @@ class CreateItems < ActiveRecord::Migration
       t.float            :canceled_qty
       t.float            :canceled_amount
       t.string           :under
-      t.integer          :item_groups_kot_id         # find item groups kot
+      t.integer          :item_groups_kot_print_id         # find item groups kot print
       t.float            :service_charge
       t.string           :event
       t.string           :i_alias
@@ -37,6 +37,7 @@ class CreateItems < ActiveRecord::Migration
     add_index :items, :code_no
     add_index :items, :item_group_id 
     add_index :items, :item_sub_group_id 
-    add_index :items, :item_groups_kot_id 
+    add_index :items, :item_groups_kot_print_id 
+    add_index :items, :bill_group_id 
   end
 end

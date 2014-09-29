@@ -1,0 +1,33 @@
+<% unless @entries.blank? %>
+  <div class="table-responsive" data-pattern="priority-columns">
+    <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+      <thead>
+        <tr>   
+          <th>Package</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th data-priority="1">Outlet</th>
+        </tr>
+      </thead>
+      <tbody>          
+        <%@entries.each do |entry|%>
+          <tr>  
+            <td><%= entry.combo_package.name%></td>
+            <td><%= date_format(entry.start_date)%></td>
+            <td><%= date_format(entry.end_date)%></td>
+            <td><%= entry.outlet.name%></td>           
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="" style="text-align:center;">
+    <%= will_paginate @entries, params: {location_id: params[:location_id], outlet_id: params[:outlet_id]}, class: 'pagination-sm', renderer: BootstrapPagination::Rails %>
+    </div>
+  <%else%>    
+    No Happy Hour Found!!!
+  <%end%>
+  <script type="text/javascript">
+    responsive_table(true);
+  </script>

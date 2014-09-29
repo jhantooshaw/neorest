@@ -1,0 +1,11 @@
+<h2 class="sub-header">Waiter</h2>
+<%= form_tag waiters_path, role: "form", class: "form-horizontal", id: "formID", remote: true do %>
+    <div class="form-group"> 
+      <%= render partial: "shared/master_header" %>
+      <div class="col-sm-2">
+        <%= submit_tag "Show", class: "btn btn-primary import_button" %>
+        </div>
+      <%end%>
+    </div>
+
+    <div id="waiters"></div>

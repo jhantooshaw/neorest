@@ -4,6 +4,9 @@ class ComboOffer < ActiveRecord::Base
   
   belongs_to   :location
   belongs_to   :outlet  
+  belongs_to   :combo_package
+  #belongs_to   :item,       foreign_key: "combo_code_no"  
+  #belongs_to   :item,       foreign_key: "code_no_offer"  
   
   validates     :location_id, :outlet_id, :combo_code_no, :code_no_offer, presence: true
   validates_uniqueness_of :combo_code_no,        scope: [:location_id, :outlet_id, :code_no_offer], case_sensitive: false, message: "duplicate entry" 

@@ -26,6 +26,7 @@ class Location < ActiveRecord::Base
   has_many      :comp_bill_master_backups
   has_many      :void_bills
   has_many      :staffs
+  has_many      :happy_hours
   
   
   has_many      :sale_analyses 

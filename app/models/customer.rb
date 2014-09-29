@@ -9,6 +9,15 @@ class Customer < ActiveRecord::Base
   validates  :location, :membership_no, :presence => true
   validates_uniqueness_of :membership_no,  scope: [:location_id], case_sensitive: false, message: "duplicate entry" 
   
+  
+  def full_address
+     [address1, address2, zipcode].compact.join(', ')
+  end
+  
+  def phones
+     [phone1, phone2, mobile].compact.join(', ')
+  end
+    
   def self.import(sheet, location)
     success =  true
     msg = ""
@@ -70,4 +79,6 @@ class Customer < ActiveRecord::Base
     end      
     return success, msg
   end 
+  
+  
 end

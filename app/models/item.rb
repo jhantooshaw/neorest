@@ -4,11 +4,14 @@ class Item < ActiveRecord::Base
   belongs_to   :outlet  
   belongs_to   :item_group
   belongs_to   :item_sub_group
+  belongs_to   :item_groups_kot_print
   belongs_to   :bill_group  
   has_many     :bill_detail_backups
-  has_many     :comp_bill_detail_backups
+  has_many     :comp_bill_detail_backups  
+  #has_many     :combo_offers
+  #class_name: "Employee",                          foreign_key: "manager_id"
   
-  validates     :code_no, :location_id, :outlet_id, presence: true
+  validates    :code_no, :location_id, :outlet_id, presence: true
   validates_uniqueness_of :code_no,        scope: [:location_id, :outlet_id], case_sensitive: false, message: "duplicate entry" 
   
   #named_scope :in_item_group, lambda { |items| { :conditions => ['item_groups', forums.select(&:id).join(',')] }
@@ -45,8 +48,8 @@ class Item < ActiveRecord::Base
           canceled_qty:     sheet.cell(line, 'O').to_i, 
           canceled_amount:  sheet.cell(line, 'P').to_f, 
           under:            sheet.cell(line, 'Q'), 
-          item_groups_kot_id: item_grps_kot.present? ? item_grps_kot.id : "",
-          service_charge:   sheet.cell(line, 'S').to_i, 
+          item_groups_kot_print_id: item_grps_kot.present? ? item_grps_kot.id : "",
+          service_charge:   sheet.cell(line, 'S').to_f, 
           event:            sheet.cell(line, 'T'),
           i_alias:          sheet.cell(line, 'U'), 
           kot_printer:      sheet.cell(line, 'W'), 

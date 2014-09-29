@@ -1,6 +1,7 @@
 class HappyHour < ActiveRecord::Base
   belongs_to   :location
   belongs_to   :outlet
+  belongs_to   :combo_package
   validates    :outlet, :happy_hour_cd,    presence: true
   validates_uniqueness_of :happy_hour_cd,        scope: [:outlet_id], case_sensitive: false, message: "duplicate entry" 
   
@@ -29,5 +30,21 @@ class HappyHour < ActiveRecord::Base
     end      
     return success, msg
   end  
+  
+  def self.checked_attributes(sheet)
+    success =  true
+    msg = ""
+    #=["HappyHourCD", "StartTime", "EndTime", "PackageName", "Outlet"]
+
+    begin
+      raise "Please set proper header for bill_group sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "HappyHourCD" || 
+          sheet.cell(1, 'B').to_s.strip != "StartTime" || sheet.cell(1, 'C').to_s.strip != "EndTime" || sheet.cell(1, 'D').to_s.strip != "PackageName" ||
+          sheet.cell(1, 'E').to_s.strip != "Outlet")         
+    rescue Exception => e
+      success = false
+      msg = e.message
+    end      
+    return success, msg
+  end 
   
 end

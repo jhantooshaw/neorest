@@ -1,11 +1,11 @@
 module Clients::ReportsHelper
   
   def date_format(date)
-    date.strftime('%d-%m-%Y')
+    date.present? ? date.strftime('%d-%m-%Y') : ''
   end
   
   def time_format(date)
-    date.strftime('%I:%M %p')
+    date.present? ? date.strftime('%I:%M %p') : ''
   end
   
   def change_decimal(value)

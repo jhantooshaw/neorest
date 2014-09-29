@@ -96,8 +96,6 @@ class Clients::ReportsController < ApplicationController
     end
   end
   
-  private
-  def get_outlets
-    @outlets = current_location.outlets
-  end
+ 
+  
 end

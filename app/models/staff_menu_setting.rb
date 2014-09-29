@@ -1,6 +1,5 @@
 class StaffMenuSetting < ActiveRecord::Base
-  belongs_to      :staff
-  
+  belongs_to    :staff  
   validates     :staff_id, :menu, presence: true
   validates_uniqueness_of :menu, scope: [:staff_id], case_sensitive: false, message: "duplicate entry"
   

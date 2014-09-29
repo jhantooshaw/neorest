@@ -78,6 +78,9 @@ class Clients::ImportsController < ApplicationController
           when "strtable" 
             status = Company.checked_attributes(sheet)
             raise status[1] if status [0] == false  
+          when "happyhour" 
+            status = HappyHour.checked_attributes(sheet)
+            raise status[1] if status [0] == false  
           end          
         end        
         
@@ -159,7 +162,10 @@ class Clients::ImportsController < ApplicationController
             raise status[1] if status [0] == false  
           when "strtable"  
             status = Company.import(sheet, current_client) unless sheet.last_row <= 1
-            raise status[1] if status [0] == false             
+            raise status[1] if status [0] == false  
+          when "happyhour"  
+            status = HappyHour.import(sheet, current_location) unless sheet.last_row <= 1
+            raise status[1] if status [0] == false  
           end          
         end
         flash[:notice] = "Master data is imported successfully."

@@ -1,0 +1,24 @@
+<% unless @entries.blank? %>
+  <div class="table-responsive" data-pattern="priority-columns">
+    <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody>          
+        <%@entries.each do |entry|%>
+          <tr>
+            <td><%= entry.remarks%></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+
+<%else%>    
+  No Remarks Found!!!
+<%end%>
+<script type="text/javascript">
+  responsive_table(true);
+</script>

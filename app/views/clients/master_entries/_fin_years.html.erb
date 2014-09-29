@@ -1,0 +1,29 @@
+<% unless @entries.blank? %>
+  <div class="table-responsive" data-pattern="priority-columns">
+    <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Start Date</th>        
+          <th>End date</th>        
+
+        </tr>
+      </thead>
+      <tbody>          
+        <%@entries.each do |entry|%>
+          <tr>
+            <td><%= entry.name%></td>
+            <td><%= date_format(entry.start_date)%></td>
+            <td><%= date_format(entry.end_date)%></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+
+  <%else%>    
+    No Financial Years Found!!!
+  <%end%>
+  <script type="text/javascript">
+    responsive_table(false);
+  </script>

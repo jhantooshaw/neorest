@@ -1,0 +1,13 @@
+<h2 class="sub-header">Item Sub Group</h2>
+<%= form_tag item_sub_groups_path, role: "form", class: "form-horizontal", id: "formID", remote: true do %>
+    <div class="form-group"> 
+      <div class="col-sm-2">
+        <%= select_tag "location", options_from_collection_for_select(@locations, "id", "name", current_location.id), :class => "form-control validate[required]" %>
+      </div>
+      <div class="col-sm-2">
+        <%= submit_tag "Show", class: "btn btn-primary import_button" %>
+        </div>
+      <%end%>
+    </div>
+
+    <div id="item_sub_groups"></div>

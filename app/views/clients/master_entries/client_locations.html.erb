@@ -1,0 +1,27 @@
+<% unless @entries.blank? %>
+  <div class="table-responsive" data-pattern="priority-columns">
+    <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th data-priority="1">IP</th>
+        </tr>
+      </thead>
+      <tbody>          
+        <%@entries.each do |entry|%>
+          <tr>
+            <td><%= entry.name%></td>
+            <td><%= entry.address%></td>
+            <td><%= entry.phone%></td>
+            <td><%= entry.ip%></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+<%end%>
+<script type="text/javascript">
+  responsive_table(true);
+</script>

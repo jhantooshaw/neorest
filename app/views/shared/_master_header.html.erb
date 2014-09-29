@@ -1,0 +1,9 @@
+<label for="inputEmail3" class="col-sm-1 control-label">Location</label>
+<div class="col-sm-2">
+  <%= select_tag "location_id", options_from_collection_for_select(@locations, "id", "name", current_location.id), :class => "form-control validate[required]" %>
+</div>
+
+<label for="inputEmail3" class="col-sm-1 control-label">Outlet</label>
+<div id="outlet_select">
+  <%= render partial: 'shared/outlets_select' %>
+</div>

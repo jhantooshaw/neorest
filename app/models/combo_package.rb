@@ -1,5 +1,8 @@
 class ComboPackage < ActiveRecord::Base
-  belongs_to   :location
+  has_many      :combo_offers
+  has_many      :happy_hours
+  
+  belongs_to    :location
   validates     :location_id, :name,    presence: true
   validates_uniqueness_of :name,        scope: [:location_id], case_sensitive: false, message: "duplicate entry" 
   

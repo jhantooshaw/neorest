@@ -16,10 +16,10 @@ class Table < ActiveRecord::Base
         $line = line
         t_name    = sheet.cell(line, 'A').gsub("'", "")
         position  = sheet.cell(line, 'C').to_i
-       # outlet = location.outlets.where(name: sheet.cell(line, 'F')).first  unless sheet.cell(line, 'F').blank?
+        outlet = location.outlets.where(name: sheet.cell(line, 'F')).first  unless sheet.cell(line, 'F').blank?
         table_section = location.table_sections.where(section: sheet.cell(line, 'D')).first unless sheet.cell(line, 'D').blank? 
         params = {
-       #   outlet_id:         outlet.present? ? outlet.id : "",  
+          outlet_id:         outlet.present? ? outlet.id : "",  
           table_section_id:  table_section.present? ? table_section.id : "",  
           max_pax:           sheet.cell(line, 'B').to_i,                    
           inUse:             sheet.cell(line, 'E') == 'false' ? false : true,        
@@ -40,7 +40,7 @@ class Table < ActiveRecord::Base
   def self.checked_attributes(sheet)
     success =  true
     msg = ""
-   # ["Table_Name", "Max_Pax", "Position", "Section", "InUse", "Outlet", "Tax3App", "LocationName"]
+    # ["Table_Name", "Max_Pax", "Position", "Section", "InUse", "Outlet", "Tax3App", "LocationName"]
     begin
       raise "Please set proper header for table_master sheet in excel file" if sheet.last_row > 1 && (sheet.cell(1, 'A').to_s.strip != "Table_Name" || 
           sheet.cell(1, 'B').to_s.strip != "Max_Pax" || 

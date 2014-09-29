@@ -1,0 +1,53 @@
+<% unless @entries.blank? %>
+  <div class="table-responsive" data-pattern="priority-columns">
+    <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Membership</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Phones</th>
+          <th data-priority="1">Fax</th>
+          <th>DOB</th>
+          <th>Entry Date</th>
+          <th>Email</th>
+          <th>Dis%</th>
+          <th data-priority="1">Order Date</th>
+          <th>Remarks</th>
+          <th data-priority="1">Card No</th>
+          <th data-priority="1">Membership(Manual)</th>
+        </tr>
+      </thead>
+      <tbody>          
+        <%@entries.each do |entry|%>
+          <tr>
+            <td><%= entry.membership_no%></td>
+            <td><%= entry.c_name%></td>
+            <td><%= entry.full_address%></td>
+            <td><%= entry.phones%></td>
+            <td><%= entry.fax%></td>
+            <td><%= date_format(entry.dob)%></td>
+            <td><%= date_format(entry.entry_date)%></td>
+            <td><%= entry.email%></td>
+            <td><%= entry.dis_per%></td>
+            <td><%= date_format(entry.order_date)%></td>
+            <td><%= entry.remarks%></td>
+            <td><%= entry.card_no%></td>
+            <td><%= entry.membership_no_manual%></td>
+            
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="" style="text-align:center;">
+    <%= will_paginate @entries, params: {location: params[:location]}, class: 'pagination-sm', renderer: BootstrapPagination::Rails %>
+    </div>
+  <%else%>
+    <br/><br/>
+    No Customer Found!!!
+  <%end%>
+  <script type="text/javascript">
+    responsive_table(true);
+  </script>

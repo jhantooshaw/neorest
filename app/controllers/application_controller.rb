@@ -81,6 +81,12 @@ class ApplicationController < ActionController::Base
     File.open(@original_path, "wb") { |f| f.write(params_file.tempfile.read) }
   end
   
+  def get_outlets
+    @outlets = current_location.outlets
+  end
   
+  def get_outlet_query
+    @outlet_query = "and outlet_id=#{params[:outlet_id]}" if params[:outlet_id].present?
+  end
     
 end

@@ -1,0 +1,32 @@
+<% unless @entries.blank? %>
+  <div class="table-responsive" data-pattern="priority-columns">
+    <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Active</th>
+          <th>Linked Happy Hour</th>
+        </tr>
+      </thead>
+      <tbody>          
+        <%@entries.each do |entry|%>
+          <tr>
+            <td><%= entry.name%></td>
+            <td><%= entry.is_active%></td>
+            <td><%= entry.linked_happy_hour%></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="" style="text-align:center;">
+    <%= will_paginate @entries, params: {location: params[:location]}, class: 'pagination-sm', renderer: BootstrapPagination::Rails %>
+    </div>
+  <%else%>
+    <br/><br/>
+    No Combo Package found!!!
+  <%end%>
+  <script type="text/javascript">
+    responsive_table(true);
+  </script>

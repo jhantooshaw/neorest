@@ -1,6 +1,7 @@
 class ItemGroupsKotPrint < ActiveRecord::Base
   #attr_accessible :location_id, :name
-  belongs_to :location
+  belongs_to   :location
+  has_many     :items
   
   validates     :location_id, :name,    presence: true
   validates_uniqueness_of :name,        scope: [:location_id], case_sensitive: false, message: "duplicate entry"  

@@ -1,0 +1,31 @@
+<% unless @entries.blank? %>
+  <div class="table-responsive" data-pattern="priority-columns">
+    <table cellspacing="0" id="tech-companies-1" class="table table-small-font table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Section</th>
+          <th>Outlet</th>
+          <th data-priority="1">Section Amount</th>          
+        </tr>
+      </thead>
+      <tbody>          
+        <%@entries.each do |entry|%>
+          <tr>
+            <td><%= entry.section%></td>
+            <td><%= entry.outlet.name if entry.outlet%></td>
+            <td><%= entry.amount%></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="" style="text-align:center;">
+    <%= will_paginate @entries, params: {location_id: params[:location_id], outlet_id: params[:outlet_id]}, class: 'pagination-sm', renderer: BootstrapPagination::Rails %>
+    </div>
+  <%else%>    
+    No Table Section Found!!!
+  <%end%>
+  <script type="text/javascript">
+    responsive_table(true);
+  </script>
