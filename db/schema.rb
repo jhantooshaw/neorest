@@ -293,8 +293,8 @@ ActiveRecord::Schema.define(version: 20140820180523) do
     t.float    "non_taxable_amount"
     t.float    "exciseable_amount"
     t.string   "pay_type"
-    t.integer  "user_id"
-    t.string   "user_name"
+    t.integer  "staff_id"
+    t.string   "staff_name"
     t.integer  "modified_by"
     t.string   "modified_name"
     t.datetime "modified_date"
@@ -384,8 +384,8 @@ ActiveRecord::Schema.define(version: 20140820180523) do
     t.float    "non_taxable_amount"
     t.float    "exciseable_amount"
     t.string   "pay_type"
-    t.integer  "user_id"
-    t.string   "user_name"
+    t.integer  "staff_id"
+    t.string   "staff_name"
     t.integer  "modified_by"
     t.string   "modified_name"
     t.datetime "modified_date"
@@ -783,7 +783,7 @@ ActiveRecord::Schema.define(version: 20140820180523) do
     t.float    "rate"
     t.float    "rate2"
     t.float    "mrp"
-    t.boolean  "is_taxable",           default: true
+    t.boolean  "is_taxable",               default: true
     t.string   "excisable"
     t.string   "discountable"
     t.string   "disable"
@@ -792,24 +792,25 @@ ActiveRecord::Schema.define(version: 20140820180523) do
     t.float    "canceled_qty"
     t.float    "canceled_amount"
     t.string   "under"
-    t.integer  "item_groups_kot_id"
+    t.integer  "item_groups_kot_print_id"
     t.float    "service_charge"
     t.string   "event"
     t.string   "i_alias"
     t.string   "kot_printer"
     t.integer  "kot_printer_position"
     t.integer  "bill_group_id"
-    t.boolean  "is_special",           default: false
-    t.boolean  "is_active",            default: true
+    t.boolean  "is_special",               default: false
+    t.boolean  "is_active",                default: true
     t.float    "cost"
     t.boolean  "open_item"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "items", ["bill_group_id"], name: "index_items_on_bill_group_id", using: :btree
   add_index "items", ["code_no"], name: "index_items_on_code_no", using: :btree
   add_index "items", ["item_group_id"], name: "index_items_on_item_group_id", using: :btree
-  add_index "items", ["item_groups_kot_id"], name: "index_items_on_item_groups_kot_id", using: :btree
+  add_index "items", ["item_groups_kot_print_id"], name: "index_items_on_item_groups_kot_print_id", using: :btree
   add_index "items", ["item_sub_group_id"], name: "index_items_on_item_sub_group_id", using: :btree
   add_index "items", ["location_id", "outlet_id", "code_no"], name: "by_location_outlet_code_no", unique: true, using: :btree
   add_index "items", ["outlet_id"], name: "index_items_on_outlet_id", using: :btree
@@ -1036,6 +1037,7 @@ ActiveRecord::Schema.define(version: 20140820180523) do
 
   create_table "tables", force: true do |t|
     t.integer  "location_id"
+    t.integer  "outlet_id"
     t.string   "t_name"
     t.integer  "max_pax"
     t.integer  "position"
