@@ -29,8 +29,8 @@ class CompBillMasterBackup < ActiveRecord::Base
         raise "Financial Year #{fin_year_name} is not found into database" if fin_year.blank?       
         waiter       = location.waiters.where(w_no: sheet.cell(line, 'H').to_i).first if sheet.cell(line, 'H').present? && sheet.cell(line, 'H').to_i != 0
         steward      = location.waiters.where(s_no: sheet.cell(line, 'J').to_i).first if sheet.cell(line, 'J').present? && sheet.cell(line, 'J').to_i != 0
-        staff        = location.staff.where(name: sheet.cell(line, 'M')).first unless sheet.cell(line, 'M').blank?       
-        staff_mod    = location.staff.where(name: sheet.cell(line, 'N')).first unless sheet.cell(line, 'N').blank?  
+        staff        = location.staffs.where(name: sheet.cell(line, 'M')).first unless sheet.cell(line, 'M').blank?       
+        staff_mod    = location.staffs.where(name: sheet.cell(line, 'N')).first unless sheet.cell(line, 'N').blank?  
         customer     = location.customers.where(c_name: sheet.cell(line, 'U')).first unless sheet.cell(line, 'U').blank?       
         
         bill_no      = sheet.cell(line, 'A').to_i
@@ -40,9 +40,9 @@ class CompBillMasterBackup < ActiveRecord::Base
           table_no:        sheet.cell(line, 'B'),
           bill_time:       sheet.cell(line, 'G'),
           total:           sheet.cell(line, 'L').to_f,       
-          user_id:         nil,
-          user_name:       sheet.cell(line, 'M'),         
-          modified_by:     nil, # sheet.cell(line, 'AR'),
+          staff_id:        staff.present?  ? staff.id  : nil,
+          staff_name:      sheet.cell(line, 'M'),         
+          modified_by:     staff_mod.present?  ? staff_mod.id  : nil,
           modified_name:   sheet.cell(line, 'N'),
           modified_date:   sheet.cell(line, 'O').present? ? Date.strptime(sheet.cell(line, 'O'), '%m/%d/%Y') : nil,
           comment:         sheet.cell(line, 'P'),

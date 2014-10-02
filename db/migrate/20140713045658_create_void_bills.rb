@@ -15,8 +15,8 @@ class CreateVoidBills < ActiveRecord::Migration
       t.float            :s_tax
       t.float            :total
       t.string           :pay_type
-      t.integer          :user_id           # find user
-      t.string           :user_name
+      t.integer          :staff_id           # find user
+      t.string           :staff_name
       t.integer          :modified_by       # find user
       t.string           :modified_name
       t.datetime         :modified_date

@@ -26,8 +26,8 @@ class VoidBill < ActiveRecord::Base
         table_no     = sheet.cell(line, 'B')
         raise "Table no should not be blank" if table_no.blank? 
         waiter       = location.waiters.where(w_no: sheet.cell(line, 'I').to_i).first if sheet.cell(line, 'I').present? && sheet.cell(line, 'I').to_i != 0
-        staff        = location.staff.where(name: sheet.cell(line, 'P')).first unless sheet.cell(line, 'P').blank?       
-        staff_mod    = location.staff.where(name: sheet.cell(line, 'Q')).first unless sheet.cell(line, 'Q').blank?  
+        staff        = location.staffs.where(name: sheet.cell(line, 'P')).first unless sheet.cell(line, 'P').blank?       
+        staff_mod    = location.staffs.where(name: sheet.cell(line, 'Q')).first unless sheet.cell(line, 'Q').blank?  
         customer     = location.customers.where(c_name: sheet.cell(line, 'V')).first unless sheet.cell(line, 'V').blank?        
         bill_no      = sheet.cell(line, 'A').to_i
         bill_date    = sheet.cell(line, 'C')
@@ -40,9 +40,9 @@ class VoidBill < ActiveRecord::Base
           s_tax:           sheet.cell(line, 'M').to_f,
           total:           sheet.cell(line, 'N').to_f,   
           pay_type:        sheet.cell(line, 'O'),
-          user_id:         nil,
-          user_name:       sheet.cell(line, 'P'),         
-          modified_by:     nil, # sheet.cell(line, 'AR'),
+          staff_id:        staff.present?  ? staff.id  : nil,
+          staff_name:      sheet.cell(line, 'P'),         
+          modified_by:     staff_mod.present?  ? staff_mod.id  : nil,
           modified_name:   sheet.cell(line, 'Q'),
           modified_date:   sheet.cell(line, 'R').present? ? Date.strptime(sheet.cell(line, 'R'), '%m/%d/%Y') : nil,          
           modified_time:   sheet.cell(line, 'S'),

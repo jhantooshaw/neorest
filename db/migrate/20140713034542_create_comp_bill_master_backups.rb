@@ -12,8 +12,8 @@ class CreateCompBillMasterBackups < ActiveRecord::Migration
       t.references       :waiter            # find waiter
       t.references       :steward           # find steward
       t.float            :total
-      t.integer          :user_id           # find user
-      t.string           :user_name
+      t.integer          :staff_id          # find user
+      t.string           :staff_name
       t.integer          :modified_by       # find user
       t.string           :modified_name
       t.datetime         :modified_date
