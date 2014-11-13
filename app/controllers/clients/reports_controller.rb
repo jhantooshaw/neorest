@@ -12,7 +12,13 @@ class Clients::ReportsController < ApplicationController
         @tax = Tax.where(outlet_id: params[:outlet_id]).first
       else
         @p_outlets = @outlets.order("name asc")
-        @tax = Tax.where(location_id: params[:location_id]).first
+        #@tax = Tax.where(location_id: params[:location_id]).first
+        @taxes = Tax.where(location_id: params[:location_id])
+        if @taxes.count > 1
+          
+        end
+        
+        
       end
       @location = @locations.includes(:item_groups).find(params[:location_id])
       
@@ -79,7 +85,7 @@ class Clients::ReportsController < ApplicationController
       
       if @bills_count > 0
         @bills = BillMasterBackup.where("bill_master_backups.location_id=? #{bill_outlet_query} and bill_master_backups.bill_date between ? and ? and modified_name != ''", 
-          params[:location_id].to_i, params[:start_date], params[:end_date]).select('id, bill_date, bill_no, bill_time, actual_amount, user_name, total_amount, modified_time, 
+          params[:location_id].to_i, params[:start_date], params[:end_date]).select('id, bill_date, bill_no, bill_time, actual_amount, staff_name, total_amount, modified_time, 
           settle_time, modified_name').paginate(:page => params[:page])
       end
       

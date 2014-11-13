@@ -256,8 +256,13 @@
           <tr>
             <th>Total</th>
             <%(0...@p_outlets.count).each do |i|%>
-              <%row_total = 0%>
-              <th>coming soon</th>
+              <%left_total = 0%>
+              <%(0...@p_outlets.count).each do |i|%>
+                <% a = get_sale( params[:start_date], params[:end_date], @p_outlets[i].id, 'Cash')%>
+                <th> <%= a %></th>
+                <% left_total += a%>
+              <%end%>
+              <th><%= left_total %></th>
             <%end%>
 
 

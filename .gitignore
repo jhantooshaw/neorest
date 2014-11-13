@@ -19,3 +19,5 @@ nbproject
 public/assets
 public/system
 vendor/bundle
+/.ruby-gemset*
+/.ruby-version*
