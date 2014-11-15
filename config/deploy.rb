@@ -11,7 +11,7 @@ set :scm_username, "jhantooshaw"
 set :deploy_to, "/home/neovision/rails_app/#{application}" 
 set :use_sudo, false
 set :chmod755, "app config db db/* log/production.log vendor script script/* public"
-set :keep_releases, 5 
+set :keep_releases, 3 
 
 default_run_options[:pty] = true
 ssh_options[:keys] = %w(~/.ssh/id_rsa)
