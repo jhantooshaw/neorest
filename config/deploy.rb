@@ -20,9 +20,9 @@ role :app, domain
 role :web, domain
 role :db,  domain, :primary => true
 
-after "deploy:restart", "deploy:cleanup"
-after "deploy:finalize_update", "deploy:assets:precompile"
-after "deploy", "deploy:restart"
+#after "deploy:restart", "deploy:cleanup"
+#after "deploy:finalize_update", "deploy:assets:precompile"
+#after "deploy", "deploy:restart"
 
 namespace :deploy do
   namespace :assets do
