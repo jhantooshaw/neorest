@@ -38,7 +38,8 @@ namespace :deploy do
   
   desc "Restart passenger app"
   task :restart do
-    run "cp #{shared}/config/server.database.yml #{release_path}/config/database.yml"
+    #run "cp #{shared}/config/server.database.yml #{release_path}/config/database.yml"
+    #run "ln -s #{shared_path}/config/server.database.yml #{current_path}/config/database.yml"
     run "ln -s #{shared_path}/assets #{current_path}/public/assets"
     run "touch #{File.join(current_path, 'tmp', 'restart.txt') }"
   end  

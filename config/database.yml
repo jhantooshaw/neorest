@@ -13,13 +13,13 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 5
-  username: root
-  password: password
+  username: root  
   host: localhost
 
 development:
   <<: *default
   database: neo_rest
+  password: password
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -27,6 +27,7 @@ development:
 test:
   <<: *default
   database: neo_rest_test
+  password: password
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -47,22 +48,8 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
-#production:
-#  <<: *default
-#  database: neo_rest_production
-#  username: neo_rest
-#  password: <%= ENV['NEO_REST_DATABASE_PASSWORD'] %>
-
-
-#production:
-#  adapter:  postgres
-#  encoding: unicode
-#  pool: 5
-#  #database: neo_rest_production
-#  url: "postgres://twdqavyfxwclfo:GvsJNa7DG11Y5aYJ0vt3xeHiP3@ec2-54-204-24-154.compute-1.amazonaws.com:5432/ddhq3gi6f21l5t"
-#  database: neo_rest_production
-#  username: neo_rest
-#  password:
-    
-production:  
-  url: "postgres://twdqavyfxwclfo:GvsJNa7DG11Y5aYJ0vt3xeHiP3@ec2-54-204-24-154.compute-1.amazonaws.com:5432/ddhq3gi6f21l5t"
+production:
+  <<: *default
+  database: neo_rest
+  username: root
+  password: ne0v!s!0n#
