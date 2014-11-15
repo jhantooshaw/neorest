@@ -7,7 +7,7 @@ set :application, "neorest"
 set :repository,  "git@github.com:jhantooshaw/neorest.git"
 set :rails_env, "production"
 set :scm, :git
-#set :scm_username, "jhantooshaw"
+set :scm_username, "jhantooshaw"
 set :deploy_to, "/home/neovision/rails_app/#{application}" 
 set :use_sudo, false
 set :chmod755, "app config db db/* log/production.log vendor script script/* public"
