@@ -42,7 +42,7 @@ gem 'devise', '3.2.4'
 gem 'role_model', '0.8.1'
 gem 'will_paginate', '3.0.5'
 gem 'wicked_pdf', '0.10.2'
-gem 'capistrano', '3.2.1'
+#gem 'capistrano', '3.2.1'
 #gem 'subdomain-fu', :git => 'git://github.com/nhowell/subdomain-fu.git'
 gem 'spreadsheet', '0.9.7'
 gem 'devise-token_authenticatable'
@@ -54,4 +54,8 @@ gem 'country_state_select'
 group :production do
  # gem 'pg'
   gem 'rails_12factor'
+end
+
+group :development do
+  gem 'capistrano', '~> 2.15'
 end
