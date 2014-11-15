@@ -52,4 +52,5 @@ production:
   <<: *default
   database: neo_rest
   username: root
-  password: ne0v!s!0n#
+  #password: ne0v!s!0n#
+  password: <%= ENV['DBPASSWORD'] %>
