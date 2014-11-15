@@ -1,21 +1,21 @@
 require 'bundler/capistrano'
 
+set :domain, "54.148.21.147"
+set :user, "neovision"
+set :password, "ne0v1$10n"
 set :application, "neorest"
 set :repository,  "git@github.com:jhantooshaw/neorest.git"
 set :rails_env, "production"
 set :scm, :git
-set :domain, "54.148.21.147"
-set :user, "neovision"
-set :password, "ne0v1$10n"
-set :scm_username, "jhantooshaw"
+#set :scm_username, "jhantooshaw"
 set :deploy_to, "/home/neovision/rails_app/#{application}" 
 set :use_sudo, false
 set :chmod755, "app config db db/* log/production.log vendor script script/* public"
 set :keep_releases, 5 
 
-default_run_options[:pty] = true
-ssh_options[:keys] = %w(~/.ssh/id_rsa)
-ssh_options[:forward_agent] = true
+#default_run_options[:pty] = true
+#ssh_options[:keys] = %w(~/.ssh/id_rsa)
+#ssh_options[:forward_agent] = true
 role :app, domain
 role :web, domain
 role :db,  domain, :primary => true
