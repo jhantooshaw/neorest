@@ -48,6 +48,7 @@ body {
     animation: 2s linear 0s normal none infinite progress-bar-stripes;
 }
 
+
 .alert-notice {
     background-color: #DFF0D8;
     border-color: #D6E9C6;
@@ -79,3 +80,4 @@ h2{
 #error_explanation{
     color: red;
 }
+
