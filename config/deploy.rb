@@ -7,7 +7,7 @@ set :scm, :git
 set :domain, "54.148.21.147"
 set :user, "neovision"
 set :password, "ne0v1$10n"
-#set :scm_username, "neovision"
+set :scm_username, "jhantooshaw"
 set :deploy_to, "/home/neovision/rails_app/#{application}" 
 set :use_sudo, false
 set :chmod755, "app config db db/* log/production.log vendor script script/* public"
