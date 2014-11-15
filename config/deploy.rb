@@ -13,9 +13,9 @@ set :use_sudo, false
 set :chmod755, "app config db db/* log/production.log vendor script script/* public"
 set :keep_releases, 5 
 
-#default_run_options[:pty] = true
-#ssh_options[:keys] = %w(~/.ssh/id_rsa)
-#ssh_options[:forward_agent] = true
+default_run_options[:pty] = true
+ssh_options[:keys] = %w(~/.ssh/id_rsa)
+ssh_options[:forward_agent] = true
 role :app, domain
 role :web, domain
 role :db,  domain, :primary => true
