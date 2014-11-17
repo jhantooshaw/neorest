@@ -16,7 +16,7 @@
  *= require clients/clients
  *= require validationEngine.jquery
  *= require datepicker
- *= require_tree ./fonts
+ * require_tree ./fonts
  *= require rwd-table.min
  *= require docs.min
  *= require_self
